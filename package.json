@@ -1,5 +1,5 @@
 {
-  "name": "borderlands-shift-code-redeem",
+  "name": "shift-code-redeemer",
   "version": "1.0.0",
   "description": "",
   "bin": "src/bin.js",

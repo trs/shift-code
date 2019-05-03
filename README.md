@@ -1,4 +1,4 @@
-# Borderlands Shift Code Redemption
+# Borderlands Shift Code Redeemer
 
 ![shift logo](https://shift.gearboxsoftware.com/assets/logo-91afdafa421f05688bd3a7adcdbe96e3a4d94a45bf8c246dd9c1935f6b500582.svg "Shift Logo")
 
@@ -18,4 +18,4 @@ Supports:
 1. You will be prompted for your platform and game to redeem on.
 1. Once selected, a browser window will open and you will be prompted to login to your Gearbox Shift account.
 1. From here, the process will be automated. Just let it do it's thing.
-    - Used shift keys are cached in `~/.config/configstore/borderlands-shift-code-redeem.json` under the profile email.
+    - Used shift keys are cached in `~/.config/configstore/shift-code-redeemer.json` under the profile email.
