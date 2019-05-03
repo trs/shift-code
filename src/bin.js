@@ -6,8 +6,10 @@ const puppeteer = require('puppeteer');
 
 const {PLATFORM_CODES, PLATFORM_NAMES, GAMES} = require('./const');
 
+const {timeout} = require('./helpers');
 const {fetchShiftKeys} = require('./codes');
-const {waitForShiftLogin, redeemShiftKeys} = require('./redeem');
+const {keyCacheFactory} = require('./cache');
+const {waitForShiftLogin, getProfileEmail, redeemShiftKey} = require('./redeem');
 
 (async function() {
   const statusLog = new Signale({
@@ -49,15 +51,45 @@ const {waitForShiftLogin, redeemShiftKeys} = require('./redeem');
     statusLog.await('Waiting for login...');
     await waitForShiftLogin(browser);
 
+    statusLog.await('Getting profile email...');
+    const user = await getProfileEmail(browser);
+
+    const {getKeyCache, addKeyCache} = keyCacheFactory(user, platformCode, game);
+
     statusLog.await('Fetching keys...');
-    const keys = await fetchShiftKeys(browser, game, platformCode);
+    const fetchedKeys = await fetchShiftKeys(browser, platformCode, game);
+
+    statusLog.await('Loading key cache...');
+    const usedKeys = getKeyCache();
 
     statusLog.await('Redeeming keys...');
-    await redeemShiftKeys(browser, platformName, keys);
 
-    statusLog.success('Complete!');
+    for (let key of fetchedKeys) {
+      const keyLog = new Signale({
+        scope: key,
+        interactive: true
+      });
+      keyLog.await('Redeeming key...');
+
+      if (!usedKeys.includes(key)) {
+        const [redeemed, message] = await redeemShiftKey(browser, platformName, key);
+        if (!redeemed) {
+          keyLog.error(message);
+        } else {
+          keyLog.success(message);
+        }
+
+        addKeyCache(key);
+
+        await timeout(1000);
+      } else {
+        keyLog.note('Key found in cache, skipped')
+      }
+    }
+
+    statusLog.complete('Complete!');
   } catch (err) {
-    statusLog.error('Error', err);
+    statusLog.error(err);
   } finally {
     await browser.close();
   }

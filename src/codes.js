@@ -1,6 +1,6 @@
 const {CODES_URL} = require('./const');
 
-async function fetchShiftKeys(browser, game, platform) {
+async function fetchShiftKeys(browser, platform, game) {
   const page = await browser.newPage();
   try {
     await page.goto(`${CODES_URL}/${game}`);
@@ -13,7 +13,9 @@ async function fetchShiftKeys(browser, game, platform) {
       const key = await keyElement.$eval('span', (element) => {
         return element.innerHTML
       });
-      keys.push(key);
+      if (!keys.includes(key)) {
+        keys.push(key);
+      }
     }
     return keys;
   } finally {
