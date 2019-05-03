@@ -27,6 +27,8 @@ const {waitForShiftLogin, getProfileEmail, redeemShiftKey} = require('./redeem')
       { title: 'Xbox', value: 2 },
     ],
   });
+  if (platformIndex === undefined) return;
+
   const platformCode = PLATFORM_CODES[platformIndex];
   const platformName = PLATFORM_NAMES[platformIndex];
 
@@ -40,6 +42,8 @@ const {waitForShiftLogin, getProfileEmail, redeemShiftKey} = require('./redeem')
       { title: 'Borderlands: The Pre-Sequel', value: 2 }
     ],
   });
+  if (gameIndex === undefined) return;
+
   const game = GAMES[gameIndex];
 
   statusLog.await('Launching browser...');
