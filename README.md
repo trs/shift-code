@@ -11,6 +11,8 @@ Supports:
 
 ## Usage
 
+![preview gif](preview.gif)
+
 1. Install the project dependencies: `npm install`
 1. Start the program: `npm run redeem`
 1. You will be prompted for your platform and game to redeem on.
