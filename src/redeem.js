@@ -54,6 +54,11 @@ async function redeemShiftKey(browser, platform, key) {
       return [false, message];
     }
 
+    if (message.match('This code is not available for your account')) {
+      return [false, message];
+    }
+
+    
     // Too many requests, wait and try again
     if (message.match('Unexpected error occurred')) {
       await timeout(5000);
@@ -110,6 +115,11 @@ async function redeemShiftKey(browser, platform, key) {
       });
     });
 
+	//check if code is valid for accounr
+	const codeValid = await page.$eval('div#code_results', function (element) {
+      return element.innerText;
+    });
+	
     // Get result of key
     const resultMessage = await page.$eval('div.alert', function (element) {
       return element.innerText;
@@ -121,6 +131,9 @@ async function redeemShiftKey(browser, platform, key) {
 
     const redeemed = !!resultMessage.match('Your code was successfully redeemed');
     return [redeemed, resultMessage];
+		
+	
+
   } finally {
     await page.close();
   }
