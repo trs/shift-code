@@ -114,11 +114,6 @@ async function redeemShiftKey(browser, platform, key) {
         }
       });
     });
-
-	//check if code is valid for accounr
-	const codeValid = await page.$eval('div#code_results', function (element) {
-      return element.innerText;
-    });
 	
     // Get result of key
     const resultMessage = await page.$eval('div.alert', function (element) {
