@@ -4,7 +4,9 @@
   "description": "",
   "bin": "src/bin.js",
   "scripts": {
-    "redeem": "node src/bin.js"
+    "prebuild": "rm -rf build",
+    "build": "pkg ./package.json --out-path build",
+    "postbuild": "cp -R ./node_modules/puppeteer/.local-chromium build/chromium"
   },
   "keywords": [],
   "author": "Tyler Stewart",
@@ -15,5 +17,15 @@
     "prompts": "^2.0.4",
     "puppeteer": "^1.15.0",
     "signale": "^1.4.0"
+  },
+  "devDependencies": {
+    "pkg": "^4.4.0"
+  },
+  "pkg": {
+    "targets": [
+      "node10-macos",
+      "node10-linux",
+      "node10-win"
+    ]
   }
 }
