@@ -1,7 +1,7 @@
 const path = require('path');
 
 function getChromeExecutablePath(executablePath) {
-  const isPkg = process.pkg !== 'undefined';
+  const isPkg = typeof process.pkg !== 'undefined';
 
   if (!isPkg) return executablePath;
 

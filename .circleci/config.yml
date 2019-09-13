@@ -14,15 +14,15 @@ commands:
           name: "Zip: << parameters.target >>"
           command: |
             mkdir build-<< parameters.target >> &&
-            cp build/shift-code-redeemer-<< parameters.exec >> build-<< parameters.target >> &&
-            cp -r build/chromium/<< parameters.chromium >>-* build-<< parameters.target >> &&
+            cp build/shift-code-redeemer-<< parameters.exec >> build-<< parameters.target >>/ &&
+            cp -r build/chromium/<< parameters.chromium >>-*/ build-<< parameters.target >>/chromium/ &&
             zip build-<< parameters.target >> ./build-<< parameters.target >>/**/*
       - store_artifacts:
           path: build-<< parameters.target >>.zip
 executors:
   node:
     docker:
-      - image: nodejs:lts
+      - image: circleci/node:lts
 
 jobs:
   install:
@@ -31,13 +31,13 @@ jobs:
       - checkout
       - run:
           name: Install
-          command: npm install
+          command: npm ci
       - run:
           name: Download Chromium
           command: node .circleci/get-chromium.js
 
       - persist_to_workspace:
-          root: /
+          root: .
           paths:
             - node_modules
 
@@ -46,23 +46,24 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: /
-      - run:
-          name: Install
-          command: npm install
+          at: .
       - run:
           name: Build
           command: npm run build
+      - run:
+          name: Check
+          command: ls -la build
       - persist_to_workspace:
-          root: /
+          root: .
           paths:
-            - build/*
+            - build
 
   artifact:
     executor: node
     steps:
+      - checkout
       - attach_workspace:
-          at: /
+          at: .
       - zip_build:
           target: linux
           exec: linux
