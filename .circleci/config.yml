@@ -1,0 +1,97 @@
+version: 2.1
+
+commands:
+  zip_build:
+    parameters:
+      target:
+        type: string
+      exec:
+        type: string
+      chromium:
+        type: string
+    steps:
+      - run:
+          name: "Zip: << parameters.target >>"
+          command: |
+            mkdir build-<< parameters.target >> &&
+            cp build/shift-code-redeemer-<< parameters.exec >> build-<< parameters.target >> &&
+            cp -r build/chromium/<< parameters.chromium >>-* build-<< parameters.target >> &&
+            zip build-<< parameters.target >> ./build-<< parameters.target >>/**/*
+      - store_artifacts:
+          path: build-<< parameters.target >>.zip
+executors:
+  node:
+    docker:
+      - image: nodejs:lts
+
+jobs:
+  install:
+    executor: node
+    steps:
+      - checkout
+      - run:
+          name: Install
+          command: npm install
+      - run:
+          name: Download Chromium
+          command: node .circleci/get-chromium.js
+
+      - persist_to_workspace:
+          root: /
+          paths:
+            - node_modules
+
+  build:
+    executor: node
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /
+      - run:
+          name: Install
+          command: npm install
+      - run:
+          name: Build
+          command: npm run build
+      - persist_to_workspace:
+          root: /
+          paths:
+            - build/*
+
+  artifact:
+    executor: node
+    steps:
+      - attach_workspace:
+          at: /
+      - zip_build:
+          target: linux
+          exec: linux
+          chromium: linux
+      - zip_build:
+          target: mac
+          exec: macos
+          chromium: mac
+      - zip_build:
+          target: windows
+          exec: win.exe
+          chromium: win32
+
+  publish:
+    executor: node
+    steps:
+      - run:
+          name: Publish
+          command: echo Publish
+
+workflows:
+  version: 2
+
+  publish:
+    jobs:
+      - install
+      - build:
+          requires:
+            - install
+      - artifact:
+          requires:
+            - build
