@@ -9,13 +9,16 @@ Supports:
 - Borderlands 2
 - Borderlands: The Pre-Sequel
 
-## Usage
-
 ![preview gif](preview.gif)
 
-1. Install the project dependencies: `npm install`
-1. Start the program: `npm run redeem`
-1. You will be prompted for your platform and game to redeem on.
-1. Once selected, a browser window will open and you will be prompted to login to your Gearbox Shift account.
-1. From here, the process will be automated. Just let it do it's thing.
+## Requirements
+
+1. NodeJS v10+
+
+## Usage
+
+1. Start the program: `npx shift-code-redeemer`
+1. Enter your shift credentials.
+1. Select the platform and game you wish to redeem on.
+1. Codes will be automatically redeemed. Just let it do it's thing.
     - Used shift keys are cached in `~/.config/configstore/shift-code-redeemer.json` under the profile email.
