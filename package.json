@@ -1,6 +1,6 @@
 {
   "name": "shift-code-redeemer",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Redeem Borderlands SHiFT codes automatically",
   "main": "./src/bin.js",
   "bin": {
@@ -20,7 +20,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "keywords": [],
+  "keywords": ["borderlands", "shift", "code", "redeem"],
   "author": "Tyler Stewart <hello@tylerstewart.ca>",
   "homepage": "https://github.com/trs/shift-code-redeemer",
   "repository": {
