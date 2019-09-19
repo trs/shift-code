@@ -4,11 +4,19 @@
 
 Automatically redeem Borderlands Shift codes from the wonderful website http://ticklemezombie.com/shift.
 
-Supports:
-- Borderlands
+### Supported Games:
+
+- Borderlands GOTY
 - Borderlands 2
 - Borderlands: The Pre-Sequel
 - Borderlands 3
+
+### Supported Platforms:
+
+- Steam
+- Epic
+- PSN
+- Xbox Live
 
 ![preview gif](preview.gif)
 

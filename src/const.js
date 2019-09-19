@@ -11,13 +11,22 @@ const GAMES = [
 const PLATFORM_CODES = [
   'pc',
   'ps',
-  'xb'
+  'xb',
+  'pc'
 ];
 
 const PLATFORM_NAMES = [
   'Steam',
-  'PlayStation',
-  'Xbox Live'
+  'PSN',
+  'Xbox Live',
+  'Epic'
+];
+
+const CACHE_KEYS = [
+  'pc',
+  'ps',
+  'xb',
+  'ep'
 ];
 
 module.exports = {
@@ -25,5 +34,6 @@ module.exports = {
   REDEEM_URL,
   GAMES,
   PLATFORM_CODES,
-  PLATFORM_NAMES
+  PLATFORM_NAMES,
+  CACHE_KEYS
 };

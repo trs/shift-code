@@ -4,7 +4,7 @@ const {prompt} = require('prompts');
 const {Signale} = require('signale');
 const puppeteer = require('puppeteer');
 
-const {PLATFORM_CODES, PLATFORM_NAMES, GAMES} = require('./const');
+const {PLATFORM_CODES, PLATFORM_NAMES, GAMES, CACHE_KEYS} = require('./const');
 
 const {getChromeExecutablePath} = require('./chrome');
 const {timeout} = require('./helpers');
@@ -53,15 +53,17 @@ const {waitForShiftLogin, getProfileEmail, redeemShiftKey} = require('./redeem')
         name: 'platformIndex',
         message: 'Platform',
         choices: [
-          { title: 'PC', value: 0 },
-          { title: 'Playstation', value: 1 },
-          { title: 'Xbox', value: 2 },
+          { title: 'Steam', value: 0 },
+          { title: 'PSN', value: 1 },
+          { title: 'Xbox Live', value: 2 },
+          { title: 'Epic', value: 3 }
         ],
       });
       if (platformIndex === undefined) return;
 
       const platformCode = PLATFORM_CODES[platformIndex];
       const platformName = PLATFORM_NAMES[platformIndex];
+      const cacheKey = CACHE_KEYS[platformIndex];
 
       const {gameIndex} = await prompt({
         type: 'select',
@@ -81,7 +83,7 @@ const {waitForShiftLogin, getProfileEmail, redeemShiftKey} = require('./redeem')
       statusLog.await('Preparing...');
       const user = await getProfileEmail(browser);
 
-      const {getKeyCache, addKeyCache} = keyCacheFactory(user, platformCode, game);
+      const {getKeyCache, addKeyCache} = keyCacheFactory(user, cacheKey, game);
 
       statusLog.await('Fetching keys...');
       const fetchedKeys = await fetchShiftKeys(browser, platformCode, game);
