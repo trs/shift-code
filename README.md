@@ -8,6 +8,7 @@ Supports:
 - Borderlands
 - Borderlands 2
 - Borderlands: The Pre-Sequel
+- Borderlands 3
 
 ![preview gif](preview.gif)
 

@@ -70,7 +70,8 @@ const {waitForShiftLogin, getProfileEmail, redeemShiftKey} = require('./redeem')
         choices: [
           { title: 'Borderlands GOTY', value: 0 },
           { title: 'Borderlands 2', value: 1 },
-          { title: 'Borderlands: The Pre-Sequel', value: 2 }
+          { title: 'Borderlands: The Pre-Sequel', value: 2 },
+          { title: 'Borderlands 3', value: 3 }
         ],
       });
       if (gameIndex === undefined) return;

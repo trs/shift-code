@@ -4,7 +4,8 @@ const REDEEM_URL = 'https://shift.gearboxsoftware.com';
 const GAMES = [
   'borderlands-goty',
   'borderlands-2',
-  'borderlands-tps'
+  'borderlands-tps',
+  'borderlands-3'
 ];
 
 const PLATFORM_CODES = [
@@ -15,7 +16,7 @@ const PLATFORM_CODES = [
 
 const PLATFORM_NAMES = [
   'Steam',
-  '?',
+  'PlayStation',
   'Xbox Live'
 ];
 
