@@ -1,4 +1,4 @@
-#!/bin/node
+#!/usr/bin/env node
 
 const {prompt} = require('prompts');
 const {Signale} = require('signale');

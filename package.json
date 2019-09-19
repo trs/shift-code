@@ -1,15 +1,32 @@
 {
   "name": "shift-code-redeemer",
-  "version": "1.0.0",
-  "description": "",
-  "bin": "src/bin.js",
+  "version": "0.0.7",
+  "description": "Redeem Borderlands SHiFT codes automatically",
+  "main": "./src/bin.js",
+  "bin": {
+    "shift-code-redeemer": "./src/bin.js"
+  },
+  "files": [
+    "bin",
+    "src"
+  ],
   "scripts": {
+    "redeem": "node src/bin.js",
+
     "prebuild": "rm -rf build",
     "build": "pkg ./package.json --out-path build",
     "postbuild": "cp -R ./node_modules/puppeteer/.local-chromium build/chromium"
   },
+  "engines": {
+    "node": ">= 10"
+  },
   "keywords": [],
-  "author": "Tyler Stewart",
+  "author": "Tyler Stewart <hello@tylerstewart.ca>",
+  "homepage": "https://github.com/trs/shift-code-redeemer",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:trs/shift-code-redeemer.git"
+  },
   "license": "ISC",
   "dependencies": {
     "configstore": "^4.0.0",
