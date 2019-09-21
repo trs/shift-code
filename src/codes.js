@@ -11,7 +11,7 @@ async function fetchShiftKeys(browser, platform, game) {
     const keys = [];
     for (const keyElement of keyElements) {
       const key = await keyElement.$eval('span', (element) => {
-        return element.innerHTML
+        return element.innerHTML.trim()
       });
       if (!keys.includes(key)) {
         keys.push(key);
