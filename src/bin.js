@@ -23,12 +23,16 @@ const {waitForShiftLogin, getProfileEmail, redeemShiftKey} = require('./redeem')
   // Workaround for pkg
   const executablePath = getChromeExecutablePath(puppeteer.executablePath());
 
+  // Launch a headless browser to do the shift code requests
   const browser = await puppeteer.launch({
     executablePath,
     headless: true
   });
 
+  statusLog.success('Login to your SHiFT account:');
+
   try {
+    // Prompt for username and password
     const {email, password} = await prompt([
       {
         type: 'text',
@@ -44,10 +48,13 @@ const {waitForShiftLogin, getProfileEmail, redeemShiftKey} = require('./redeem')
     if (email === undefined) return;
     if (password === undefined) return;
 
+    // Attempt to login to the given shift account
     await waitForShiftLogin(browser, email, password);
 
+    // We start a loop here so we can redeem multiple games/platforms without having to login again
     let redeem = true;
     while (redeem) {
+      // Prompt for the game platform
       const {platformIndex} = await prompt({
         type: 'select',
         name: 'platformIndex',
@@ -61,10 +68,14 @@ const {waitForShiftLogin, getProfileEmail, redeemShiftKey} = require('./redeem')
       });
       if (platformIndex === undefined) return;
 
+      // platformCode is used by the shift code website, corresponding to the div selector
       const platformCode = PLATFORM_CODES[platformIndex];
+      // platformName is used by the shift redeem website, corresponding to which button to click when redeeming
       const platformName = PLATFORM_NAMES[platformIndex];
+      // cacheKey is used by the app to store which keys have already been used
       const cacheKey = CACHE_KEYS[platformIndex];
 
+      // Prompt for the game
       const {gameIndex} = await prompt({
         type: 'select',
         name: 'gameIndex',
@@ -78,21 +89,29 @@ const {waitForShiftLogin, getProfileEmail, redeemShiftKey} = require('./redeem')
       });
       if (gameIndex === undefined) return;
 
+      // game is used by the shift code website, corresponding to which URL to go to for codes
       const game = GAMES[gameIndex];
 
+      console.log(); // Add blank line to maintain previous line in log
+
       statusLog.await('Preparing...');
+      // Grab the users email address
       const user = await getProfileEmail(browser);
 
+      // Setup our key cache to store used keys
       const {getKeyCache, addKeyCache} = keyCacheFactory(user, cacheKey, game);
 
       statusLog.await('Fetching keys...');
+      // Grab a list of keys from the shift code website
       const fetchedKeys = await fetchShiftKeys(browser, platformCode, game);
 
       statusLog.await('Loading key cache...');
+      // Load the cached keys so we can ignore codes already applied
       const usedKeys = getKeyCache();
 
       statusLog.await('Redeeming keys...');
-
+      
+      // Redeem each key 1 at a time
       for (let key of fetchedKeys) {
         const keyLog = new Signale({
           scope: key,
@@ -101,6 +120,7 @@ const {waitForShiftLogin, getProfileEmail, redeemShiftKey} = require('./redeem')
         keyLog.await('Redeeming key...');
 
         if (!usedKeys.includes(key)) {
+          // Redeem the code from the shift website
           const [redeemed, message] = await redeemShiftKey(browser, platformName, key);
           if (!redeemed) {
             keyLog.error(message);
@@ -108,21 +128,24 @@ const {waitForShiftLogin, getProfileEmail, redeemShiftKey} = require('./redeem')
             keyLog.success(message);
           }
 
+          // Cache the key so we don't try to redeem it again
           addKeyCache(key);
 
-          await timeout(1000);
+          await timeout(500);
         } else {
-          keyLog.note('Key found in cache, skipped')
+          keyLog.note('Key found in cache, skipped');
         }
+        console.log(); // Add blank line to maintain previous line in log
       }
 
       statusLog.complete('Redeemed all keys!');
 
+      // Ask if we should redeem again
       const {cont} = await prompt({
         type: 'toggle',
         name: 'cont',
-        message: '\nRedeem again on another platform?',
-        initial: true,
+        message: 'Redeem again on another platform or game?',
+        initial: false,
         active: 'yes',
         inactive: 'no'
       });
