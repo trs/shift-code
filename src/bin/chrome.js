@@ -1,4 +1,5 @@
 const path = require('path');
+const puppeteer = require('puppeteer');
 
 function getChromeExecutablePath(executablePath) {
   const isPkg = typeof process.pkg !== 'undefined';
@@ -18,6 +19,19 @@ function getChromeExecutablePath(executablePath) {
   }
 }
 
+async function launchBrowser() {
+  // Workaround for pkg
+  const executablePath = getChromeExecutablePath(puppeteer.executablePath());
+
+  // Launch a headless browser to do the shift code requests
+  const browser = await puppeteer.launch({
+    executablePath,
+    headless: true
+  });
+  return browser;
+}
+
 module.exports = {
-  getChromeExecutablePath
+  getChromeExecutablePath,
+  launchBrowser
 };

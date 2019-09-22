@@ -1,17 +1,17 @@
 {
   "name": "shift-code-redeemer",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "description": "Redeem Borderlands SHiFT codes automatically",
-  "main": "./src/bin.js",
+  "main": "./src/bin/index.js",
   "bin": {
-    "shift-code-redeemer": "./src/bin.js"
+    "shift-code-redeemer": "./src/bin/index.js"
   },
   "files": [
     "bin",
     "src"
   ],
   "scripts": {
-    "redeem": "node src/bin.js",
+    "redeem": "node src/bin/index.js",
 
     "prebuild": "rm -rf build",
     "build": "pkg ./package.json --out-path build",
