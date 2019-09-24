@@ -20,6 +20,7 @@ const statusLog = new Signale({interactive: true});
 
     // Authenticate user
     const {email, password} = await promptCredentials();
+    if (email === undefined || password === undefined) throw new Error('Required.');
     
     console.log(); // Add blank line to maintain previous line in log
 
@@ -32,6 +33,11 @@ const statusLog = new Signale({interactive: true});
 
       // Prompt for game
       const {platform, game} = await promptGamePlatform();
+      if (platform === undefined || game === undefined) {
+        const {cont} = await promptContinue();
+        if (!cont) break;
+        else continue;
+      }
 
       // platformKey is used by the shift code website, corresponding to the div selector
       const platformKey = PLATFORM_CODES[platform];

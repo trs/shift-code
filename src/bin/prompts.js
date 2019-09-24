@@ -13,7 +13,6 @@ async function promptCredentials() {
       message: 'Shift Password'
     }
   ]);
-  if (email === undefined || password === undefined) throw new Error('Required.');
 
   return {email, password};
 }
@@ -43,7 +42,6 @@ async function promptGamePlatform() {
       ],
     }
   ]);
-  if (platform === undefined || game === undefined) throw new Error('Required.');
 
   return {platform, game};
 }
@@ -52,7 +50,7 @@ async function promptContinue() {
   const {cont} = await prompt({
     type: 'toggle',
     name: 'cont',
-    message: 'Redeem again on another platform or game?',
+    message: 'Redeem on different platform or game?',
     initial: false,
     active: 'yes',
     inactive: 'no'
