@@ -66,8 +66,6 @@ const statusLog = new Signale({interactive: true});
 
           // Cache the key so we don't try to redeem it again
           codeCache.add(code);
-
-          await timeout(500);
         } else {
           codeLog.note('Key found in cache, skipped');
         }

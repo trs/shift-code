@@ -2,7 +2,7 @@ const {REDEEM_URL} = require('../const');
 const {timeout} = require('../helpers');
 
 /** Wait for the redeem button to appear */
-async function waitForRedeemButton(page, checkButton) {
+async function waitForRedeemButton(page, platform, checkButton) {
   const codeResults = await page.$('#code_results');
   const message = await page.$eval('#code_results', function (element) {
     return element.innerText;
@@ -24,7 +24,7 @@ async function waitForRedeemButton(page, checkButton) {
   if (message.match('Unexpected error occurred')) {
     await timeout(5000);
     await checkButton.click();
-    return await waitForRedeemButton(page, checkButton);
+    return await waitForRedeemButton(page, platform, checkButton);
   }
 
   // Get all redeem buttons
@@ -32,7 +32,7 @@ async function waitForRedeemButton(page, checkButton) {
   if (!buttons.length) {
     // Check hasn't loaded buttons yet
     await timeout(100);
-    return await waitForRedeemButton(page, checkButton);
+    return await waitForRedeemButton(page, platform, checkButton);
   }
 
   // Find the correct platform's button
@@ -64,7 +64,7 @@ async function redeemShiftCode(browser, platform, key) {
     const checkButton = await page.$('button#shift_code_check');
     await checkButton.click();
 
-    const [redeemButton, redeemMessage] = await waitForRedeemButton(page, checkButton);
+    const [redeemButton, redeemMessage] = await waitForRedeemButton(page, platform, checkButton);
     if (!redeemButton) return [false, redeemMessage];
 
     await redeemButton.click();

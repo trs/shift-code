@@ -17,7 +17,7 @@ function codeCacheFactory(email, platform, game) {
   }
 
   function add(code) {
-    const codes = codes.add(code);
+    codes.add(code);
     config.set(masterKey, [...codes.values()]);
   }
 
