@@ -1,6 +1,6 @@
 {
   "name": "shift-code-redeemer",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "description": "Redeem Borderlands SHiFT codes automatically",
   "main": "./src/bin/index.js",
   "bin": {
