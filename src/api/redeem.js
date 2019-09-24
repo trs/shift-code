@@ -5,7 +5,7 @@ const {timeout} = require('../helpers');
 async function waitForRedeemButton(page, platform, checkButton) {
   const codeResults = await page.$('#code_results');
   const message = await page.$eval('#code_results', function (element) {
-    return element.innerText;
+    return element.innerText.trim();
   });
 
   if (message.match('This is not a valid SHiFT code')) {
@@ -36,7 +36,7 @@ async function waitForRedeemButton(page, platform, checkButton) {
   }
 
   // Find the correct platform's button
-  let redeemButton;
+  let redeemButton = undefined;
   for (let button of buttons) {
     const buttonValue = await button.getProperty('value');
     const text = await buttonValue.jsonValue();
@@ -44,6 +44,10 @@ async function waitForRedeemButton(page, platform, checkButton) {
       redeemButton = button;
       break;
     };
+  }
+
+  if (!redeemButton) {
+    return [undefined, 'Cannot redeem code for platform'];
   }
 
   return [redeemButton, message];

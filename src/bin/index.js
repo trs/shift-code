@@ -78,7 +78,7 @@ const statusLog = new Signale({interactive: true});
         console.log();
       }
 
-      statusLog.success('Redemption successful!');
+      statusLog.success('Redemption complete!');
       const {cont} = await promptContinue();
       if (!cont) break;
     }
