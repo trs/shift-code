@@ -6,13 +6,13 @@ const {launchBrowser} = require('./chrome');
 const {promptCredentials, promptGamePlatform, promptContinue} = require('./prompts');
 const {codeCacheFactory} = require('./cache');
 const {getShiftCodes, authenticateShift, redeemShiftCode} = require('../api');
-const {PLATFORM_CODES, PLATFORM_NAMES, CACHE_KEYS, GAMES} = require('../const');
+const {PLATFORM_CODES, PLATFORM_NAMES, CACHE_KEYS, GAME_NAMES, GAME_CODES} = require('../const');
 
 const statusLog = new Signale({interactive: true});
 
 (async function () {
   statusLog.await('Launching...');
-  
+
   const browser = await launchBrowser();
 
   try {
@@ -21,7 +21,7 @@ const statusLog = new Signale({interactive: true});
     // Authenticate user
     const {email, password} = await promptCredentials();
     if (email === undefined || password === undefined) throw new Error('Required.');
-    
+
     console.log(); // Add blank line to maintain previous line in log
 
     statusLog.await('Authenticating with SHiFT...');
@@ -47,38 +47,54 @@ const statusLog = new Signale({interactive: true});
       const cacheKey = CACHE_KEYS[platform];
 
       // shiftGame is used by the shift code website, corresponding to which URL to go to for codes
-      const shiftGame = GAMES[game];
+      const shiftGame = GAME_CODES[game];
+
+      const gameName = GAME_NAMES[game];
+
+      const gameLog = new Signale({interactive: true, scope: gameName});
 
       console.log();
-      statusLog.await('Preparing...');
+      gameLog.await('Preparing...');
       const codeCache = codeCacheFactory(email, cacheKey, shiftGame);
 
-      statusLog.await('Loading SHiFT codes...');
+      gameLog.await('Loading SHiFT codes...');
       const shiftCodes = await getShiftCodes(browser, platformKey, shiftGame);
 
+      const totalCount = shiftCodes.size;
+
+      gameLog.complete(`SHiFT codes: ${totalCount}`);
+      console.log();
+
+      let redeemCount = 0;
       for (const code of shiftCodes) {
         const codeLog = new Signale({scope: code, interactive: true});
 
         codeLog.await('Redeeming SHiFT code...');
-        
-        if (!codeCache.has(code)) {
-          // Redeem the code from the shift website
-          const [redeemed, message] = await redeemShiftCode(browser, platformName, code);
-          if (!redeemed) {
-            codeLog.error(message);
-          } else {
-            codeLog.success(message);
-          }
 
-          // Cache the key so we don't try to redeem it again
-          codeCache.add(code);
+        if (!codeCache.has(code)) {
+          try {
+            // Redeem the code from the shift website
+            const [redeemed, message] = await redeemShiftCode(browser, platformName, code);
+            if (!redeemed) {
+              codeLog.error(message);
+            } else {
+              codeLog.success(message);
+              redeemCount++;
+            }
+
+            // Cache the key so we don't try to redeem it again
+            codeCache.add(code);
+          } catch (err) {
+            codeLog.error(err);
+            break;
+          }
         } else {
           codeLog.note('Key found in cache, skipped');
         }
         console.log();
       }
 
-      statusLog.success('Redemption complete!');
+      gameLog.success(`Redemed ${redeemCount} SHiFT codes!`);
       const {cont} = await promptContinue();
       if (!cont) break;
     }

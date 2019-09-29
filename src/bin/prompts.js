@@ -1,4 +1,5 @@
 const {prompt} = require('prompts');
+const {GAME_NAMES, PLATFORM_NAMES} = require('../const');
 
 async function promptCredentials() {
   const {email, password} = await prompt([
@@ -23,23 +24,13 @@ async function promptGamePlatform() {
       type: 'select',
       name: 'platform',
       message: 'Platform',
-      choices: [
-        { title: 'Steam', value: 0 },
-        { title: 'PSN', value: 1 },
-        { title: 'Xbox Live', value: 2 },
-        { title: 'Epic', value: 3 }
-      ],
+      choices: PLATFORM_NAMES.map((title, value) => ({title, value}))
     },
     {
       type: 'select',
       name: 'game',
       message: 'Game',
-      choices: [
-        { title: 'Borderlands GOTY', value: 0 },
-        { title: 'Borderlands 2', value: 1 },
-        { title: 'Borderlands: The Pre-Sequel', value: 2 },
-        { title: 'Borderlands 3', value: 3 }
-      ],
+      choices: GAME_NAMES.map((title, value) => ({title, value}))
     }
   ]);
 
