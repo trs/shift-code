@@ -31,3 +31,8 @@ Automatically redeem Borderlands Shift codes from the wonderful website http://t
 1. Select the platform and game you wish to redeem on.
 1. Codes will be automatically redeemed. Just let it do it's thing.
     - Used shift keys are cached in `~/.config/configstore/shift-code-redeemer.json` under the profile email.
+
+## FAQ
+
+1. What does `"please launch a shift-enabled title first"` mean?
+    - You can only redeem a certain number of SHiFT codes before you'll see this. It means you need to open a SHiFT enabled title (a Borderlands game) and play past the main menu. Once you're loaded in, you can exit the game and continue redeeming.
