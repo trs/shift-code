@@ -43,8 +43,8 @@ async function promptGamePlatform() {
     ]);
   }
   
-  if ( argv['game'] ) {
-    var game = GAME_ARGS.indexOf(argv['game'].toString());
+  if ( argv['games'] ) {
+    var game = GAME_ARGS.indexOf(argv['games'].toString());
     statusLog.await(`Checking ${GAME_NAMES[game]} on ${PLATFORM_NAMES[platform]}`);
   } else {
     var {game} = await prompt([
@@ -61,7 +61,7 @@ async function promptGamePlatform() {
 }
 
 async function promptContinue() {
-  if (argv['game'] || argv['platform']) {
+  if (argv['games'] || argv['platform']) {
     var {cont} = false;
   } else {
     var {cont} = await prompt({

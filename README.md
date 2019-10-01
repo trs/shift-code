@@ -43,7 +43,7 @@ Use the following arguments to redeem codes faster, or even unattended.
     `psn`
     `xbox`
     `epic`
-`--game=GAME`: replace `GAME` with game you want to redeem, by one of the following codes:
+`--games=GAME`: replace `GAME` with game you want to redeem, by one of the following codes:
     `1`: Borderlands: Game of the Year
     `2`: Borderlands 2
     `tps`: Borderlands: The Pre-Sequel
