@@ -15,6 +15,13 @@ const GAME_CODES = [
   'borderlands-3'
 ];
 
+const GAME_ARGS = [
+  '1',
+  '2',
+  'tps',
+  '3'
+];
+
 const PLATFORM_CODES = [
   'pc',
   'ps',
@@ -29,6 +36,13 @@ const PLATFORM_NAMES = [
   'Epic'
 ];
 
+const PLATFORM_ARGS = [
+  'steam',
+  'psn',
+  'xbox',
+  'epic'
+];
+
 const CACHE_KEYS = [
   'pc',
   'ps',
@@ -41,7 +55,9 @@ module.exports = {
   REDEEM_URL,
   GAME_CODES,
   GAME_NAMES,
+  GAME_ARGS,
   PLATFORM_CODES,
   PLATFORM_NAMES,
+  PLATFORM_ARGS,
   CACHE_KEYS
 };

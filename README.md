@@ -14,9 +14,9 @@ Automatically redeem Borderlands Shift codes from the wonderful website http://t
 ### Supported Platforms:
 
 - Steam
-- Epic
 - PSN
 - Xbox Live
+- Epic
 
 ![preview gif](preview.gif)
 
@@ -29,10 +29,27 @@ Automatically redeem Borderlands Shift codes from the wonderful website http://t
 1. Start the program: `npx shift-code-redeemer`
 1. Enter your shift credentials.
 1. Select the platform and game you wish to redeem on.
-1. Codes will be automatically redeemed. Just let it do it's thing.
+1. Codes will be automatically redeemed. Just let it do its thing.
     - Used shift keys are cached in `~/.config/configstore/shift-code-redeemer.json` under the profile email.
+
+### Optional arguments
+
+Use the following arguments to redeem codes faster, or even unattended.
+
+`--email=EMAIL`: replace `EMAIL` with your email address to skip the login prompt. You must use this with `--password`.
+`--password=PASSWORD`: replace `PASSWORD` with your password to skip the login prompt. You must use this with `--email`.
+`--platform=PLATFORM`: replace `PLATFORM` with the platform for which you want to redeem, by one of the following codes:
+    `steam`
+    `psn`
+    `xbox`
+    `epic`
+`--game=GAME`: replace `GAME` with game you want to redeem, by one of the following codes:
+    `1`: Borderlands: Game of the Year
+    `2`: Borderlands 2
+    `tps`: Borderlands: The Pre-Sequel
+    `3`: Borderlands 3
 
 ## FAQ
 
 1. What does `"please launch a shift-enabled title first"` mean?
-    - You can only redeem a certain number of SHiFT codes before you'll see this. It means you need to open a SHiFT enabled title (a Borderlands game) and play past the main menu. Once you're loaded in, you can exit the game and continue redeeming.
+    - You can only redeem a certain number of SHiFT codes within time window before you'll see this. It means you need to open a SHiFT enabled title (a Borderlands game) and play past the main menu. Once you're loaded in, you can exit the game and continue redeeming. You may also wait at least an hour and try again.

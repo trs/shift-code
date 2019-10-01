@@ -16,7 +16,6 @@ const statusLog = new Signale({interactive: true});
   const browser = await launchBrowser();
 
   try {
-    statusLog.success('Login to your SHiFT account:');
 
     // Authenticate user
     const {email, password} = await promptCredentials();
