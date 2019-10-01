@@ -26,7 +26,8 @@ async function launchBrowser() {
   // Launch a headless browser to do the shift code requests
   const browser = await puppeteer.launch({
     executablePath,
-    headless: true
+    headless: true,
+    args: ['--no-sandbox']
   });
   return browser;
 }
