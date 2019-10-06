@@ -1,40 +1,69 @@
 const {prompt} = require('prompts');
 const {GAME_NAMES, PLATFORM_NAMES} = require('../const');
 
-async function promptCredentials() {
-  const {email, password} = await prompt([
-    {
-      type: 'text',
-      name: 'email',
-      message: 'Shift Email'
-    },
-    {
-      type: 'password',
-      name: 'password',
-      message: 'Shift Password'
-    }
-  ]);
+async function promptUnknown(questions = [], defaultOptions = {}) {
+  const filteredQuestions = questions.filter(
+    question => !defaultOptions[question.name]
+  );
 
-  return {email, password};
+  const promptedAnswers = await prompt(filteredQuestions);
+
+  return questions.reduce((answers, question) => {
+    const {name} = question;
+    answers[name] = promptedAnswers[name] || defaultOptions[name];
+    return answers;
+  }, {});
 }
 
-async function promptGamePlatform() {
-  const {platform, game} = await prompt([
-    {
-      type: 'select',
-      name: 'platform',
-      message: 'Platform',
-      choices: PLATFORM_NAMES.map((title, value) => ({title, value}))
-    },
-    {
-      type: 'select',
-      name: 'game',
-      message: 'Game',
-      choices: GAME_NAMES.map((title, value) => ({title, value}))
-    }
-  ]);
+function getIndex(prop, propList) {
+  if (typeof prop === 'string') {
+    return propList.indexOf(prop);
+  }
+  return prop;
+}
 
-  return {platform, game};
+async function promptCredentials(defaultOptions) {
+  return promptUnknown(
+    [
+      {
+        type: 'text',
+        name: 'email',
+        initial: defaultOptions.email,
+        message: 'Shift Email'
+      },
+      {
+        type: 'password',
+        name: 'password',
+        initial: defaultOptions.password,
+        message: 'Shift Password'
+      }
+    ],
+    defaultOptions
+  );
+}
+
+async function promptGamePlatform(defaultOptions) {
+  const {platform, game} = await promptUnknown(
+    [
+      {
+        type: 'select',
+        name: 'platform',
+        message: 'Platform',
+        choices: PLATFORM_NAMES.map((title, value) => ({title, value}))
+      },
+      {
+        type: 'select',
+        name: 'game',
+        message: 'Game',
+        choices: GAME_NAMES.map((title, value) => ({title, value}))
+      }
+    ],
+    defaultOptions
+  );
+  return {
+    platform: getIndex(platform, PLATFORM_NAMES),
+    game: getIndex(game, GAME_NAMES)
+  };
 }
 
 async function promptContinue() {

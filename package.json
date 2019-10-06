@@ -37,10 +37,15 @@
     "node-fetch": "^2.6.0",
     "prompts": "^2.2.1",
     "puppeteer": "^1.20.0",
-    "signale": "^1.4.0"
+    "signale": "^1.4.0",
+    "yargs": "^14.0.0"
   },
   "devDependencies": {
     "pkg": "^4.4.0"
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "singleQuote": true
   },
   "pkg": {
     "targets": [

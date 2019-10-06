@@ -2,6 +2,7 @@
 
 const {Signale} = require('signale');
 
+const cli = require('./cli');
 const {launchBrowser} = require('./chrome');
 const {promptCredentials, promptGamePlatform, promptContinue} = require('./prompts');
 const {codeCacheFactory} = require('./cache');
@@ -11,6 +12,7 @@ const {PLATFORM_CODES, PLATFORM_NAMES, CACHE_KEYS, GAME_NAMES, GAME_CODES} = req
 const statusLog = new Signale({interactive: true});
 
 (async function () {
+  const cliArgs = cli();
   statusLog.await('Launching...');
 
   const browser = await launchBrowser();
@@ -19,7 +21,7 @@ const statusLog = new Signale({interactive: true});
     statusLog.success('Login to your SHiFT account:');
 
     // Authenticate user
-    const {email, password} = await promptCredentials();
+    const {email, password} = await promptCredentials(cliArgs);
     if (email === undefined || password === undefined) throw new Error('Required.');
 
     console.log(); // Add blank line to maintain previous line in log
@@ -32,7 +34,7 @@ const statusLog = new Signale({interactive: true});
       statusLog.success('Select SHiFT eligible game:');
 
       // Prompt for game
-      const {platform, game} = await promptGamePlatform();
+      const {platform, game} = await promptGamePlatform(cliArgs);
       if (platform === undefined || game === undefined) {
         const {cont} = await promptContinue();
         if (!cont) break;
