@@ -1,0 +1,52 @@
+{
+  "name": "shift-code-redeemer",
+  "version": "0.4.1",
+  "description": "Redeem Borderlands SHiFT codes automatically",
+  "main": "./src/bin/index.js",
+  "bin": {
+    "shift-code-redeemer": "./src/bin/index.js"
+  },
+  "files": [
+    "bin",
+    "src"
+  ],
+  "scripts": {
+    "redeem": "node src/bin/index.js",
+    "prebuild": "rm -rf build",
+    "build": "pkg ./package.json --out-path build",
+    "postbuild": "cp -R ./node_modules/puppeteer/.local-chromium build/chromium"
+  },
+  "engines": {
+    "node": ">= 10"
+  },
+  "keywords": [
+    "borderlands",
+    "shift",
+    "code",
+    "redeem"
+  ],
+  "author": "Tyler Stewart <hello@tylerstewart.ca>",
+  "homepage": "https://github.com/trs/shift-code-redeemer",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:trs/shift-code-redeemer.git"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "configstore": "^5.0.0",
+    "node-fetch": "^2.6.0",
+    "prompts": "^2.2.1",
+    "puppeteer": "^1.20.0",
+    "signale": "^1.4.0"
+  },
+  "devDependencies": {
+    "pkg": "^4.4.0"
+  },
+  "pkg": {
+    "targets": [
+      "node10-macos",
+      "node10-linux",
+      "node10-win"
+    ]
+  }
+}
