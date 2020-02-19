@@ -7,15 +7,12 @@ commands:
         type: string
       exec:
         type: string
-      chromium:
-        type: string
     steps:
       - run:
           name: "Zip: << parameters.target >>"
           command: |
             mkdir build-<< parameters.target >> &&
             cp build/shift-code-<< parameters.exec >> build-<< parameters.target >>/ &&
-            cp -r build/chromium/<< parameters.chromium >>-*/ build-<< parameters.target >>/chromium/ &&
             zip build-<< parameters.target >> ./build-<< parameters.target >>/**/*
       - store_artifacts:
           path: build-<< parameters.target >>.zip
@@ -32,9 +29,6 @@ jobs:
       - run:
           name: Install
           command: npm ci
-      - run:
-          name: Download Chromium
-          command: node .circleci/get-chromium.js
 
       - persist_to_workspace:
           root: .
@@ -52,11 +46,11 @@ jobs:
           command: npm run build
       - run:
           name: Check
-          command: ls -la build
+          command: ls -la dist
       - persist_to_workspace:
           root: .
           paths:
-            - build
+            - dist
 
   artifact:
     executor: node
@@ -67,15 +61,12 @@ jobs:
       - zip_build:
           target: linux
           exec: linux
-          chromium: linux
       - zip_build:
           target: mac
           exec: macos
-          chromium: mac
       - zip_build:
           target: windows
           exec: win.exe
-          chromium: win32
 
   publish:
     executor: node

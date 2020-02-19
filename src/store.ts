@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const {name} = require('../package.json');
 
-import {writeFile, readFile, existsSync} from 'fs';
+import {writeFile, readFile} from 'fs';
 import {promisify} from 'util';
 import path from 'path';
 import os from 'os';
