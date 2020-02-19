@@ -28,9 +28,9 @@
   ],
   "pkg": {
     "targets": [
-      "node10-macos",
-      "node10-linux",
-      "node10-win"
+      "node12-macos",
+      "node12-linux",
+      "node12-win"
     ]
   },
   "author": "Tyler Stewart <hello@tylerstewart.ca>",
