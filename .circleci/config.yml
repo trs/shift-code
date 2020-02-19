@@ -11,11 +11,10 @@ commands:
       - run:
           name: "Zip: << parameters.target >>"
           command: |
-            mkdir build-<< parameters.target >> &&
-            cp build/shift-code-<< parameters.exec >> build-<< parameters.target >>/ &&
-            zip build-<< parameters.target >> ./build-<< parameters.target >>/**/*
+            cd ./pkg/
+            zip shift-code-<< parameters.target >> shift-code-<< parameters.exec >>
       - store_artifacts:
-          path: build-<< parameters.target >>.zip
+          path: shift-code-<< parameters.target >>.zip
 executors:
   node:
     docker:
@@ -58,6 +57,12 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run:
+          name: Package
+          command: npm run pkg
+      - run:
+          name: Check
+          command: ls -la pkg
       - zip_build:
           target: linux
           exec: linux
@@ -87,3 +92,9 @@ workflows:
       - artifact:
           requires:
             - build
+      - publish:
+          requires:
+            - artifact
+          filters:
+            branches:
+              only: master
