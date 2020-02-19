@@ -3,7 +3,7 @@
 import yargs from 'yargs';
 import { Arguments } from 'yargs';
 
-import { loginCommand, redeemCommand } from './commands';
+import { loginCommand, logoutCommand, redeemCommand, cacheCommand } from './commands';
 
 const runCommand = <T>(fn: (args: Arguments<T>) => Promise<any>) => (args: Arguments<T>) => {
   fn(args)
@@ -17,8 +17,17 @@ yargs
     yarg.option('email', {alias: 'e'});
     yarg.option('password', {alias: 'p'});
   }, runCommand(loginCommand))
+  
+  .command('logout', 'Remove login session', () => {}, runCommand(logoutCommand))
+
   .command('redeem', 'Redeem all available codes or the given codes if provided', (yarg) => {
     yarg.option('code', {alias: 'c', type: 'array'});
   }, runCommand(redeemCommand))
+
+  
+  .command('cache-clear', 'Clear redemption cache', () => {}, runCommand(cacheCommand))
+
   .help()
+  .demandCommand(1, '')
+  .strict()
   .argv;

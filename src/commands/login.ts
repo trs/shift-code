@@ -1,21 +1,14 @@
 import { Arguments } from 'yargs';
-import prompt from 'prompts';
-import { PromptObject } from 'prompts';
+import { Signale } from 'signale';
 import { login } from 'shift-code-api';
 
+import { tryPromptArgs } from '../shared';
 import { storeContents, SESSION_FILE } from '../store';
 
 export interface LoginParameters {
   email?: string;
   password?: string;
 }
-
-const tryPromptArgs = (args: Arguments<LoginParameters>) => async <T extends string>(question: PromptObject<T>) => {
-  const key = question.name as string;
-  if (args[key]) return args[key] as string;
-  const result = await prompt(question);
-  return (result as any)[key] as string;
-};
 
 export async function loginCommand(args: Arguments<LoginParameters>) {
   const tryPrompt = tryPromptArgs(args);
@@ -36,9 +29,10 @@ export async function loginCommand(args: Arguments<LoginParameters>) {
 
   const session = await login({email, password});
 
-  await storeContents(SESSION_FILE, JSON.stringify(session));
+  await storeContents(SESSION_FILE, session);
 
-  console.log('Login successful!');
+  const log = new Signale();
+  log.success('Login successful!');
 
   return session;
 }

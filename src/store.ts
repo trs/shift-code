@@ -1,15 +1,20 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const {name} = require('../package.json');
 
-import {writeFile, readFile} from 'fs';
+import {writeFile, readFile, existsSync} from 'fs';
+import {promisify} from 'util';
 import path from 'path';
 import os from 'os';
 import mkdirp from 'mkdirp';
+
+const writeFileAsync = promisify(writeFile);
+const readFileAsync = promisify(readFile);
 
 const homedir = os.homedir();
 const {env} = process;
 
 export const SESSION_FILE = 'session';
+export const CACHE_FILE = 'cache';
 
 export function getStorePath() {
   // macos
@@ -32,31 +37,26 @@ export function getStorePath() {
 
 const getFilePath = (name: string) => path.join(getStorePath(), `${name}.json`);
 
-export async function storeContents(name: string, contents: string) {
+export async function storeContents<T>(name: string, contents: T): Promise<string> {
   const filePath = getFilePath(name);
+  const storePath = getStorePath();
 
-  await new Promise<void>((resolve, reject) => {
-    mkdirp(getStorePath(), (err) => {
-      if (err) reject(err);
-      else resolve();
-    });
-  })
+  await mkdirp(storePath);
+  await writeFileAsync(filePath, JSON.stringify(contents));
 
-  return await new Promise<string>((resolve, reject) => {
-    writeFile(filePath, contents, (err) => {
-      if (err) reject(err);
-      else resolve(filePath);
-    });
-  });
+  return filePath;
 }
 
-export async function loadContents(name: string) {
+export async function loadContents<T>(name: string, defaultContent?: T): Promise<T> {
   const filePath = getFilePath(name);
 
-  return await new Promise<string>((resolve, reject) => {
-    readFile(filePath, (err, data) => {
-      if (err) reject(err);
-      else resolve(data.toString());
-    });
-  });
+  try {
+    const data = await readFileAsync(filePath);
+    const json = JSON.parse(data.toString()) as T;
+    return json;
+  } catch (err) {
+    await storeContents(name, JSON.stringify(defaultContent));
+
+    return defaultContent ?? {} as T;
+  }
 }

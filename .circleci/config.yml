@@ -14,7 +14,7 @@ commands:
           name: "Zip: << parameters.target >>"
           command: |
             mkdir build-<< parameters.target >> &&
-            cp build/shift-code-redeemer-<< parameters.exec >> build-<< parameters.target >>/ &&
+            cp build/shift-code-<< parameters.exec >> build-<< parameters.target >>/ &&
             cp -r build/chromium/<< parameters.chromium >>-*/ build-<< parameters.target >>/chromium/ &&
             zip build-<< parameters.target >> ./build-<< parameters.target >>/**/*
       - store_artifacts:

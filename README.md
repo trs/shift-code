@@ -2,7 +2,7 @@
 
 ![shift logo](https://shift.gearboxsoftware.com/assets/logo-91afdafa421f05688bd3a7adcdbe96e3a4d94a45bf8c246dd9c1935f6b500582.svg "Shift Logo")
 
-Automatically redeem Borderlands Shift codes from the wonderful website http://ticklemezombie.com/shift.
+Automatically redeem Borderlands Shift codes from the wonderful website https://shift.orcicorn.com/.
 
 ### Supported Games:
 
@@ -18,19 +18,22 @@ Automatically redeem Borderlands Shift codes from the wonderful website http://t
 - PSN
 - Xbox Live
 
-![preview gif](preview.gif)
-
 ## Requirements
 
 1. NodeJS v10+
 
+## Install
+
+```
+npm install shift-code --global
+```
+
 ## Usage
 
-1. Start the program: `npx shift-code-redeemer`
-1. Enter your shift credentials.
-1. Select the platform and game you wish to redeem on.
+1. Login to SHiFT: `shift-code login`
+1. Enter your shift credentials
+1. Redeem available codes: `shift-code redeem`
 1. Codes will be automatically redeemed. Just let it do it's thing.
-    - Used shift keys are cached in `~/.config/configstore/shift-code-redeemer.json` under the profile email.
 
 ## FAQ
 
