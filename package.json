@@ -83,19 +83,19 @@
         {
           "assets": [
             {
-              "path": "pkg/shift-code-linux",
+              "path": "pkg/shift-code-linux.zip",
               "label": "Linux",
-              "name": "shift-code-<%= nextRelease.version %>"
+              "name": "shift-code-<%= nextRelease.version %>.zip"
             },
             {
-              "path": "pkg/shift-code-mac",
+              "path": "pkg/shift-code-mac.zip",
               "label": "MacOS",
-              "name": "shift-code-<%= nextRelease.version %>"
+              "name": "shift-code-<%= nextRelease.version %>.zip"
             },
             {
-              "path": "pkg/shift-code-windows.exe",
+              "path": "pkg/shift-code-windows.zip",
               "label": "Windows",
-              "name": "shift-code-<%= nextRelease.version %>.exe"
+              "name": "shift-code-<%= nextRelease.version %>.zip"
             }
           ]
         }

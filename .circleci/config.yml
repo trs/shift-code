@@ -8,8 +8,13 @@ commands:
       exec:
         type: string
     steps:
+      - run:
+          name: "Zip: << parameters.target >>"
+          command: |
+            cd ./pkg/
+            zip shift-code-<< parameters.target >>.zip shift-code-<< parameters.exec >>
       - store_artifacts:
-          path: ./pkg/shift-code-<< parameters.exec >>
+          path: ./pkg/shift-code-<< parameters.target >>.zip
 executors:
   node:
     docker:
