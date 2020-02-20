@@ -1,20 +1,15 @@
 version: 2.1
 
 commands:
-  zip_build:
+  store_artifact:
     parameters:
       target:
         type: string
       exec:
         type: string
     steps:
-      - run:
-          name: "Zip: << parameters.target >>"
-          command: |
-            cd ./pkg/
-            zip shift-code-<< parameters.target >> shift-code-<< parameters.exec >>
       - store_artifacts:
-          path: ./pkg/shift-code-<< parameters.target >>.zip
+          path: ./pkg/shift-code-<< parameters.exec >>
 executors:
   node:
     docker:
@@ -63,13 +58,13 @@ jobs:
       - run:
           name: Check
           command: ls -la pkg
-      - zip_build:
+      - store_artifact:
           target: linux
           exec: linux
-      - zip_build:
+      - store_artifact:
           target: mac
           exec: macos
-      - zip_build:
+      - store_artifact:
           target: windows
           exec: win.exe
       - persist_to_workspace:

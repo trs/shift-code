@@ -81,9 +81,9 @@
       [
         "@semantic-release/github", {
           "assets": [
-            {"path": "pkg/shift-code-linux.zip", "label": "Linux"},
-            {"path": "pkg/shift-code-mac.zip", "label": "MacOS"},
-            {"path": "pkg/shift-code-windows.zip", "label": "Windows"}
+            {"path": "pkg/shift-code-linux", "label": "Linux", "name": "shift-code-<%= nextRelease.version %>"},
+            {"path": "pkg/shift-code-mac", "label": "MacOS", "name": "shift-code-<%= nextRelease.version %>"},
+            {"path": "pkg/shift-code-windows.exe", "label": "Windows", "name": "shift-code-<%= nextRelease.version %>.exe"}
           ]
         }
       ]
