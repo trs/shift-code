@@ -37,7 +37,7 @@
   "homepage": "https://github.com/trs/shift-code",
   "repository": {
     "type": "git",
-    "url": "git@github.com:trs/shift-code.git"
+    "url": "https://github.com/trs/shift-code.git"
   },
   "license": "MIT",
   "eslintConfig": {

@@ -80,6 +80,9 @@ jobs:
   publish:
     executor: node
     steps:
+      - checkout
+      - attach_workspace:
+          at: .
       - run:
           name: Publish
           command: npx semantic-release
