@@ -7,7 +7,7 @@
     "shift-code": "./dist/bin.js"
   },
   "files": [
-    "src"
+    "dist"
   ],
   "scripts": {
     "test:once": "jest",
@@ -126,7 +126,7 @@
   "dependencies": {
     "mkdirp": "^1.0.3",
     "prompts": "^2.3.1",
-    "shift-code-api": "1.1.0",
+    "shift-code-api": "2.0.1",
     "shift-code-source": "0.1.1",
     "signale": "^1.4.0",
     "yargs": "^15.1.0"
