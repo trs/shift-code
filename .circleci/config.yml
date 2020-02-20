@@ -72,6 +72,10 @@ jobs:
       - zip_build:
           target: windows
           exec: win.exe
+      - persist_to_workspace:
+          root: .
+          paths:
+            - pkg
 
   publish:
     executor: node
