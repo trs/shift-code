@@ -18,11 +18,11 @@ yargs
     yarg.option('password', {alias: 'p'});
   }, runCommand(loginCommand))
   
-  .command('logout', 'Remove login session', undefined, runCommand(logoutCommand))
+  .command('logout', 'Remove login session', {}, runCommand(logoutCommand))
 
-  .command('redeem [codes...]', 'Redeem all available codes or the given codes if provided', undefined, runCommand(redeemCommand))
+  .command('redeem [codes...]', 'Redeem all available codes or the given codes if provided', {}, runCommand(redeemCommand))
   
-  .command('cache-clear', 'Clear redemption cache', undefined, runCommand(cacheCommand))
+  .command('cache-clear', 'Clear redemption cache', {}, runCommand(cacheCommand))
 
   .help()
   .demandCommand(1, '')
