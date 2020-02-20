@@ -27,7 +27,7 @@ export async function loginCommand(args: Arguments<LoginParameters>) {
     validate: (value) => !!value
   });
 
-  const session = await login({email, password});
+  const session = await login(email, password);
 
   await storeContents(SESSION_FILE, session);
 

@@ -1,5 +1,5 @@
 import { Arguments } from 'yargs';
-import { Session, ErrorCodes, redeem } from 'shift-code-api';
+import { Session, ErrorCodes, redeem, account } from 'shift-code-api';
 import { getShiftCodes } from 'shift-code-source';
 import { Signale } from 'signale';
 
@@ -7,12 +7,11 @@ import { loadContents, storeContents, SESSION_FILE, CACHE_FILE } from '../store'
 import { CacheStore } from '../types';
 
 export interface RedeemParameters {
-  code?: string[];
+  codes?: string[];
 }
 
 async function redeemCode(session: Session, code: string) {
   const log = new Signale({interactive: true}).scope(code);
-  const errorLog = new Signale();
 
   try {
     log.await('Redeeming...');
@@ -28,23 +27,24 @@ async function redeemCode(session: Session, code: string) {
           log.success(message);
           break;
         case ErrorCodes.LoginRequired:
-          errorLog.fatal('Failed to redeem due to invalid session. Please login again!');
-          errorLog.note('$ shift-code-redeemer login');
+          log.fatal('Failed to redeem due to invalid session. Please login again!');
           return false;
         case ErrorCodes.LaunchGame:
-          errorLog.fatal('You need to launch a Borderlands game to continue redeeming.');
+          log.fatal('You need to launch a Borderlands game to continue redeeming.');
           return false;
         default:
           log.error(message);
           break;
       }
+
+      console.log();
     }
 
   } catch (err) {
     log.fatal(err.message);
+    console.log();
   }
 
-  console.log();
   return true;
 }
 
@@ -58,11 +58,21 @@ export async function redeemCommand(args: Arguments<RedeemParameters>) {
     log.note('$ shift-code-redeemer login');
     return;
   }
-  
+
+  const acc = await account(session);
+  log.scope(acc.email).info('Starting code redemption');
+  log.unscope();
+
   const cache = await loadContents<CacheStore>(CACHE_FILE, []);
 
-  for await (const {code} of getShiftCodes()) {
-    if (cache.includes(code)) continue;
+  const source = args.codes ? args.codes.map((code) => ({code})) : getShiftCodes();
+
+  for await (const {code} of source) {
+    if (cache.includes(code)) {
+      log.scope(code).note('Code found in cache, skipping.');
+      log.unscope();
+      continue;
+    }
 
     const cont = await redeemCode(session, code);
     if (!cont) return;
