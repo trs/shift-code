@@ -15,10 +15,9 @@ async function redeemCode(session: Session, code: string) {
 
   try {
     log.await('Redeeming...');
-    const results = await redeem(session, code);
-    for (const result of results) {
+    for await (const result of redeem(session, code)) {
       let scope = [result.service, result.title].filter(Boolean).join(', ');
-      scope = scope ? `(${scope}) ` : ''
+      scope = scope ? `(${scope}) ` : '';
 
       const message = `${scope}${result.status}`;
 
@@ -36,7 +35,6 @@ async function redeemCode(session: Session, code: string) {
           log.error(message);
           break;
       }
-
       console.log();
     }
 

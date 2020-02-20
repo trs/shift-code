@@ -79,11 +79,24 @@
       "@semantic-release/npm",
       "@semantic-release/release-notes-generator",
       [
-        "@semantic-release/github", {
+        "@semantic-release/github",
+        {
           "assets": [
-            {"path": "pkg/shift-code-linux", "label": "Linux", "name": "shift-code-<%= nextRelease.version %>"},
-            {"path": "pkg/shift-code-mac", "label": "MacOS", "name": "shift-code-<%= nextRelease.version %>"},
-            {"path": "pkg/shift-code-windows.exe", "label": "Windows", "name": "shift-code-<%= nextRelease.version %>.exe"}
+            {
+              "path": "pkg/shift-code-linux",
+              "label": "Linux",
+              "name": "shift-code-<%= nextRelease.version %>"
+            },
+            {
+              "path": "pkg/shift-code-mac",
+              "label": "MacOS",
+              "name": "shift-code-<%= nextRelease.version %>"
+            },
+            {
+              "path": "pkg/shift-code-windows.exe",
+              "label": "Windows",
+              "name": "shift-code-<%= nextRelease.version %>.exe"
+            }
           ]
         }
       ]
@@ -140,7 +153,7 @@
   "dependencies": {
     "mkdirp": "^1.0.3",
     "prompts": "^2.3.1",
-    "shift-code-api": "2.0.1",
+    "shift-code-api": "2.1.2",
     "shift-code-source": "0.1.1",
     "signale": "^1.4.0",
     "yargs": "^15.1.0"
