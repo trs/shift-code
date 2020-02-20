@@ -73,7 +73,21 @@
     "*.ts": "eslint --fix"
   },
   "release": {
-    "branch": "master"
+    "branch": "master",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/npm",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/github", {
+          "assets": [
+            {"path": "pkg/shift-code-linux.zip", "label": "Linux"},
+            {"path": "pkg/shift-code-mac.zip", "label": "MacOS"},
+            {"path": "pkg/shift-code-windows.zip", "label": "Windows"}
+          ]
+        }
+      ]
+    ]
   },
   "jest": {
     "transform": {
