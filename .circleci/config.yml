@@ -14,7 +14,7 @@ commands:
             cd ./pkg/
             zip shift-code-<< parameters.target >> shift-code-<< parameters.exec >>
       - store_artifacts:
-          path: shift-code-<< parameters.target >>.zip
+          path: ./pkg/shift-code-<< parameters.target >>.zip
 executors:
   node:
     docker:
@@ -78,7 +78,7 @@ jobs:
     steps:
       - run:
           name: Publish
-          command: echo Publish
+          command: npx semantic-release
 
 workflows:
   version: 2
