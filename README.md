@@ -21,11 +21,11 @@ Automatically redeem Borderlands Shift codes from the wonderful website https://
 
 ## Install
 
-Download the latest binary release (`v1.1.2`) for your platform:
+Download the latest binary release (`v1.1.3`) for your platform:
 
-- [Windows](https://github.com/trs/shift-code/releases/download/v1.1.2/shift-code-windows-1.1.2.zip)
-- [MacOS](https://github.com/trs/shift-code/releases/download/v1.1.2/shift-code-mac-1.1.2.zip)
-- [Linux](https://github.com/trs/shift-code/releases/download/v1.1.2/shift-code-linux-1.1.2.zip)
+- [Windows](https://github.com/trs/shift-code/releases/download/v1.1.2/shift-code-windows-1.1.3.zip)
+- [MacOS](https://github.com/trs/shift-code/releases/download/v1.1.2/shift-code-mac-1.1.3.zip)
+- [Linux](https://github.com/trs/shift-code/releases/download/v1.1.2/shift-code-linux-1.1.3.zip)
 
 Or, run via NodeJS:
 
