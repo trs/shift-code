@@ -9,12 +9,14 @@
       "moduleResolution": "node",
       "declaration": true,
       "esModuleInterop": true,
+      "jsx": "react",
       "typeRoots": [
-        "node_modules/@types"
+        "node_modules/@types",
+        "./@types"
       ]
     },
     "include": [
-      "src/**/*.ts"
+      "srcold/**/*.ts", "srcold/commands/redeem2.tsx"
     ],
     "exclude": [
       "**/*.spec.ts"
