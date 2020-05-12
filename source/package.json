@@ -1,0 +1,27 @@
+{
+  "name": "@shift-code/source",
+  "version": "1.0.0",
+  "description": "Get active Borderlands SHiFT codes",
+  "main": "dist/index",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build",
+    "release": "semantic-release"
+  },
+  "license": "MIT",
+  "release": {
+    "branch": "master"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.4",
+    "@types/node-fetch": "^2.5.7",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.0",
+    "stream-json": "^1.5.0"
+  }
+}

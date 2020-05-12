@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12'
+
+    - name: Install
+      run: yarn install
+
+    - name: Release API
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: |
+        yarn workspace @shift-code/api build
+        yarn workspace @shift-code/api semantic-release
+
+    - name: Release Source
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: |
+        yarn workspace @shift-code/source build
+        yarn workspace @shift-code/source semantic-release
+
+    - name: Release CLI
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: |
+        yarn workspace @shift-code/cli build
+        yarn workspace @shift-code/cli semantic-release

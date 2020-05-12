@@ -1,0 +1,82 @@
+{
+  "name": "@shift-code/cli",
+  "version": "1.0.0",
+  "description": "Redeem Borderlands SHiFT codes automatically",
+  "main": "./dist/bin",
+  "bin": {
+    "shift-code": "./dist/bin.js"
+  },
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsc -p .",
+    "prepare": "npm run build",
+    "pkg": "pkg ./package.json --out-path pkg",
+    "release": "semantic-release"
+  },
+  "engines": {
+    "node": ">= 10"
+  },
+  "keywords": [
+    "borderlands",
+    "shift",
+    "code",
+    "redeem"
+  ],
+  "pkg": {
+    "targets": [
+      "node12-macos",
+      "node12-linux",
+      "node12-win"
+    ]
+  },
+  "license": "MIT",
+  "release": {
+    "branch": "master",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/npm",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/github",
+        {
+          "assets": [
+            {
+              "path": "pkg/shift-code-linux.zip",
+              "label": "Linux <%= nextRelease.version %>",
+              "name": "shift-code-linux-<%= nextRelease.version %>.zip"
+            },
+            {
+              "path": "pkg/shift-code-mac.zip",
+              "label": "MacOS <%= nextRelease.version %>",
+              "name": "shift-code-mac-<%= nextRelease.version %>.zip"
+            },
+            {
+              "path": "pkg/shift-code-windows.zip",
+              "label": "Windows <%= nextRelease.version %>",
+              "name": "shift-code-windows-<%= nextRelease.version %>.zip"
+            }
+          ]
+        }
+      ]
+    ]
+  },
+  "devDependencies": {
+    "@types/mkdirp": "^1.0.0",
+    "@types/node": "^12.7.4",
+    "@types/prompts": "^2.0.8",
+    "@types/signale": "^1.4.1",
+    "@types/yargs": "^15.0.4",
+    "typescript": "^3.8.3",
+    "pkg": "^4.4.8"
+  },
+  "dependencies": {
+    "@shift-code/api": "^1.0.0",
+    "@shift-code/source": "^1.0.0",
+    "mkdirp": "^1.0.4",
+    "prompts": "^2.3.2",
+    "signale": "^1.4.0",
+    "yargs": "^15.3.1"
+  }
+}

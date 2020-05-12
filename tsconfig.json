@@ -1,22 +1,12 @@
 {
-    "compilerOptions": {
-      "outDir": "dist",
-      "module": "commonjs",
-      "target": "es2016",
-      "lib": ["ES2020"],
-      "sourceMap": true,
-      "strict": true,
-      "moduleResolution": "node",
-      "declaration": true,
-      "esModuleInterop": true,
-      "typeRoots": [
-        "node_modules/@types"
-      ]
-    },
-    "include": [
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "**/*.spec.ts"
-    ]
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2016",
+    "lib": ["ES2020"],
+    "sourceMap": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "declaration": true,
+    "esModuleInterop": true
   }
+}
