@@ -25,7 +25,7 @@ jobs:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
         yarn workspace @shift-code/api run build
-        yarn workspace @shift-code/api run release
+        yarn workspace @shift-code/api run release -- --dry-run
 
     - name: Release Source
       env:
@@ -33,7 +33,7 @@ jobs:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
         yarn workspace @shift-code/source run build
-        yarn workspace @shift-code/source run release
+        yarn workspace @shift-code/source run release -- --dry-run
 
     - name: Release CLI
       env:
@@ -41,4 +41,4 @@ jobs:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
         yarn workspace @shift-code/cli run build
-        yarn workspace @shift-code/cli run release
+        yarn workspace @shift-code/cli run release -- --dry-run
