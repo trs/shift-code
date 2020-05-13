@@ -1,17 +1,17 @@
-# Shift Code API
+# `@shift-code/api`
 
 > Borderlands SHiFT code redemption library
 
 ## Install
 
 ```sh
-npm install shift-code-api
+npm install @shift-code/api
 ```
 
 ## Usage
 
 ```js
-import {login, redeem, account, logout} from 'shift-code-api';
+import {login, redeem, account, logout} from '@shift-code/api';
 
 (async () => {
   const session = await login('email', 'password');
@@ -47,11 +47,3 @@ A code can be associated to multiple platforms, so one or many RedemptionResults
 ### `account(session) => Promise<Account>`
 
 Get account details, such as email and ID.
-
-## CLI
-
-A simple CLI to redeem a given code.
-
-```sh
-npx shift-code-api [email] [password] [code]
-```

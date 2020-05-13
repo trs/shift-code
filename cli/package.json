@@ -1,6 +1,6 @@
 {
   "name": "@shift-code/cli",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Redeem Borderlands SHiFT codes automatically",
   "main": "./dist/bin",
   "bin": {
@@ -15,8 +15,7 @@
   "scripts": {
     "build": "tsc -p .",
     "prepare": "npm run build",
-    "pkg": "pkg ./package.json --out-path pkg",
-    "release": "semantic-release"
+    "pkg": "pkg ./package.json --out-path pkg"
   },
   "engines": {
     "node": ">= 10"
@@ -72,12 +71,11 @@
     "@types/signale": "^1.4.1",
     "@types/yargs": "^15.0.4",
     "pkg": "^4.4.8",
-    "semantic-release": "^17.0.7",
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@shift-code/api": "workspace:^1.0.0",
-    "@shift-code/source": "workspace:^1.0.0",
+    "@shift-code/api": "workspace:^0.1.0",
+    "@shift-code/source": "workspace:^0.1.0",
     "mkdirp": "^1.0.4",
     "prompts": "^2.3.2",
     "signale": "^1.4.0",

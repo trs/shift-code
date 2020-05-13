@@ -1,11 +1,11 @@
-# Shift Code Source
+# `@shift-code/source`
 
 > Get active Borderlands SHiFT codes
 
 ## Install
 
 ```
-npm install shift-code-source
+npm install @shift-code/source
 ```
 
 ## Usage
@@ -16,7 +16,7 @@ Create an `AsyncGenerator` of active SHiFT codes.
 
 ```ts
 
-import {getShiftCodes} from 'shift-code-source';
+import {getShiftCodes} from '@shift-code/source';
 
 for await (const shift of getShiftCodes()) {
   console.log(shift.code);
