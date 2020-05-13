@@ -1,6 +1,6 @@
 import { Arguments } from 'yargs';
 import { Session, ErrorCodes, redeem, account } from '@shift-code/api';
-import { getShiftCodes } from '@shift-code/source';
+import { getShiftCodes } from '@shift-code/get';
 import { Signale } from 'signale';
 
 import { loadContents, storeContents, SESSION_FILE, CACHE_FILE } from '../store';

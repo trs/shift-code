@@ -1,5 +1,5 @@
 {
-  "name": "@shift-code/source",
+  "name": "@shift-code/get",
   "version": "0.1.0",
   "description": "Get active Borderlands SHiFT codes",
   "main": "dist/index",

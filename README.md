@@ -15,10 +15,10 @@
   </tr>
   <tr>
     <td align="right"><a href="api"><code>@shift-code/api</code></a></td>
-    <td align="left">API for interacting with shift redemption website</td>
+    <td align="left">API for interacting with shift website</td>
   </tr>
   <tr>
-    <td align="right"><a href="source"><code>@shift-code/source</code></a></td>
+    <td align="right"><a href="get"><code>@shift-code/get</code></a></td>
     <td align="left">Library for retrieving shift codes</td>
   </tr>
 </table>

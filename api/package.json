@@ -10,7 +10,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsc -p .",
+    "build": "tsc",
     "prepare": "npm run build"
   },
   "devDependencies": {
