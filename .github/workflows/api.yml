@@ -1,0 +1,61 @@
+name: Release
+
+# on:
+#   push:
+#     branches:
+#       - master
+
+on: [push]
+
+jobs:
+  api:
+    name: "@shift-code/api"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - name: Install
+        run: yarn
+      - name: Build
+        run: yarn workspace @shift-code/api run build
+      - name: Release
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          yarn workspace @shift-code/api publish --new-version $(node .github/workflows/currentVersion.js api)
+
+  get:
+    name: "@shift-code/get"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - name: Install
+        run: yarn
+      - name: Build
+        run: yarn workspace @shift-code/get run build
+      - name: Release
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          yarn workspace @shift-code/get publish --new-version $(node .github/workflows/currentVersion.js get)
+
+  cli:
+    name: "@shift-code/cli"
+    needs: [api, get]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - name: Install
+        run: yarn
+      - name: Build
+        run: yarn workspace @shift-code/get run build
+      - name: Release
+        run:  |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          echo todo
