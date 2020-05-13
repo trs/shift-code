@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@shift-code/api": "^0.1.0",
-    "@shift-code/get": "^0.1.0",
+    "@shift-code/get": "^0.1.1",
     "mkdirp": "^1.0.4",
     "prompts": "^2.3.2",
     "signale": "^1.4.0",
