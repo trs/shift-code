@@ -2,9 +2,4 @@ node_modules/
 dist/
 pkg/
 
-.yarn/*
-!.yarn/releases
-!.yarn/plugins
-.pnp.*
-
 .env
