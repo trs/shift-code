@@ -1,161 +1,18 @@
 {
-  "name": "shift-code",
-  "version": "1.0.0",
-  "description": "Redeem Borderlands SHiFT codes automatically",
-  "main": "./dist/bin.js",
-  "bin": {
-    "shift-code": "./dist/bin.js"
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "test:once": "jest",
-    "test": "npm run test:once -- --watchAll",
-    "prebuild": "rm -rf dist",
-    "build": "tsc",
-    "prepkg": "rm -rf pkg",
-    "pkg": "pkg ./package.json --out-path pkg"
-  },
-  "engines": {
-    "node": ">= 10"
-  },
-  "keywords": [
-    "borderlands",
-    "shift",
-    "code",
-    "redeem"
-  ],
-  "pkg": {
-    "targets": [
-      "node12-macos",
-      "node12-linux",
-      "node12-win"
-    ]
-  },
-  "author": "Tyler Stewart <hello@tylerstewart.ca>",
-  "homepage": "https://github.com/trs/shift-code",
+  "name": "@shift-code/redeem",
   "repository": {
     "type": "git",
     "url": "https://github.com/trs/shift-code.git"
   },
-  "license": "MIT",
-  "eslintConfig": {
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "project": "./tsconfig.json"
-    },
-    "plugins": [
-      "@typescript-eslint"
-    ],
-    "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:@typescript-eslint/recommended-requiring-type-checking"
-    ],
-    "rules": {
-      "@typescript-eslint/indent": [
-        "error",
-        2
-      ],
-      "@typescript-eslint/no-unused-vars": [
-        "warn",
-        {
-          "argsIgnorePattern": "_"
-        }
-      ],
-      "@typescript-eslint/explicit-function-return-type": 0,
-      "@typescript-eslint/no-explicit-any": 0
-    }
+  "author": {
+    "email": "git@tylerstewart.ca",
+    "name": "Tyler Stewart",
+    "url": "https://tylerstewart.ca"
   },
-  "lint-staged": {
-    "*.ts": "eslint --fix"
-  },
-  "release": {
-    "branch": "master",
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/npm",
-      "@semantic-release/release-notes-generator",
-      [
-        "@semantic-release/github",
-        {
-          "assets": [
-            {
-              "path": "pkg/shift-code-linux.zip",
-              "label": "Linux <%= nextRelease.version %>",
-              "name": "shift-code-linux-<%= nextRelease.version %>.zip"
-            },
-            {
-              "path": "pkg/shift-code-mac.zip",
-              "label": "MacOS <%= nextRelease.version %>",
-              "name": "shift-code-mac-<%= nextRelease.version %>.zip"
-            },
-            {
-              "path": "pkg/shift-code-windows.zip",
-              "label": "Windows <%= nextRelease.version %>",
-              "name": "shift-code-windows-<%= nextRelease.version %>.zip"
-            }
-          ]
-        }
-      ]
-    ]
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testRegex": "(\\.|/)spec\\.ts",
-    "moduleFileExtensions": [
-      "js",
-      "ts",
-      "json"
-    ],
-    "globals": {
-      "ts-jest": {
-        "tsConfig": "tsconfig.json"
-      }
-    }
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^8.3.5",
-    "@commitlint/config-conventional": "^8.3.4",
-    "@types/jest": "^25.1.2",
-    "@types/mkdirp": "^1.0.0",
-    "@types/node": "^12.7.4",
-    "@types/prompts": "^2.0.3",
-    "@types/signale": "^1.2.1",
-    "@types/yargs": "^15.0.3",
-    "@typescript-eslint/eslint-plugin": "^2.20.0",
-    "@typescript-eslint/parser": "^2.20.0",
-    "eslint": "^6.8.0",
-    "husky": "^4.2.3",
-    "jest": "^25.1.0",
-    "lint-staged": "^10.0.7",
-    "pkg": "^4.4.3",
-    "semantic-release": "^17.0.4",
-    "ts-jest": "^25.2.0",
-    "ts-node": "^8.6.2",
-    "typescript": "^3.7.5"
-  },
-  "dependencies": {
-    "mkdirp": "^1.0.3",
-    "prompts": "^2.3.1",
-    "shift-code-api": "2.1.3",
-    "shift-code-source": "0.1.1",
-    "signale": "^1.4.0",
-    "yargs": "^15.1.0"
-  }
+  "private": true,
+  "workspaces": [
+    "./api",
+    "./cli",
+    "./source"
+  ]
 }
