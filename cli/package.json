@@ -34,36 +34,6 @@
     ]
   },
   "license": "MIT",
-  "release": {
-    "branch": "master",
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/npm",
-      "@semantic-release/release-notes-generator",
-      [
-        "@semantic-release/github",
-        {
-          "assets": [
-            {
-              "path": "pkg/shift-code-linux.zip",
-              "label": "Linux <%= nextRelease.version %>",
-              "name": "shift-code-linux-<%= nextRelease.version %>.zip"
-            },
-            {
-              "path": "pkg/shift-code-mac.zip",
-              "label": "MacOS <%= nextRelease.version %>",
-              "name": "shift-code-mac-<%= nextRelease.version %>.zip"
-            },
-            {
-              "path": "pkg/shift-code-windows.zip",
-              "label": "Windows <%= nextRelease.version %>",
-              "name": "shift-code-windows-<%= nextRelease.version %>.zip"
-            }
-          ]
-        }
-      ]
-    ]
-  },
   "devDependencies": {
     "@types/mkdirp": "^1.0.0",
     "@types/node": "^12.7.4",
