@@ -1,5 +1,5 @@
 import { Signale } from 'signale';
-import { Session, logout } from 'shift-code-api';
+import { Session, logout } from '@shift-code/api';
 
 import { loadContents, storeContents, SESSION_FILE } from '../store';
 

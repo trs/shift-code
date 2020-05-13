@@ -1,6 +1,6 @@
 import { Arguments } from 'yargs';
 import { Signale } from 'signale';
-import { login } from 'shift-code-api';
+import { login } from '@shift-code/api';
 
 import { tryPromptArgs } from '../shared';
 import { storeContents, SESSION_FILE } from '../store';

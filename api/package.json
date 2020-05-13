@@ -17,6 +17,7 @@
     "@types/node": "^12.7.4",
     "@types/node-fetch": "^2.5.7",
     "@types/tough-cookie": "^4.0.0",
+    "semantic-release": "^17.0.7",
     "typescript": "^3.8.3"
   },
   "dependencies": {

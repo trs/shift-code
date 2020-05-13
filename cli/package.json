@@ -68,12 +68,13 @@
     "@types/prompts": "^2.0.8",
     "@types/signale": "^1.4.1",
     "@types/yargs": "^15.0.4",
-    "typescript": "^3.8.3",
-    "pkg": "^4.4.8"
+    "pkg": "^4.4.8",
+    "semantic-release": "^17.0.7",
+    "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@shift-code/api": "^1.0.0",
-    "@shift-code/source": "^1.0.0",
+    "@shift-code/api": "workspace:^1.0.0",
+    "@shift-code/source": "workspace:^1.0.0",
     "mkdirp": "^1.0.4",
     "prompts": "^2.3.2",
     "signale": "^1.4.0",

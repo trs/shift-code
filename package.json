@@ -1,5 +1,5 @@
 {
-  "name": "@shift-code/repo",
+  "name": "@shift-code/redeem",
   "repository": {
     "type": "git",
     "url": "https://github.com/trs/shift-code.git"
@@ -14,8 +14,5 @@
     "./api",
     "./cli",
     "./source"
-  ],
-  "devDependencies": {
-    "semantic-release": "^17.0.7"
-  }
+  ]
 }
