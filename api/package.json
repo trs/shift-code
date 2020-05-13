@@ -1,11 +1,14 @@
 {
   "name": "@shift-code/api",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Borderlands SHiFT code redemption library",
   "main": "./dist/index",
   "files": [
     "dist/"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc -p .",
     "prepare": "npm run build",

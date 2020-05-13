@@ -1,11 +1,14 @@
 {
   "name": "@shift-code/source",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Get active Borderlands SHiFT codes",
   "main": "dist/index",
   "files": [
     "dist/"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc",
     "prepare": "npm run build",

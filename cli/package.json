@@ -1,6 +1,6 @@
 {
   "name": "@shift-code/cli",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Redeem Borderlands SHiFT codes automatically",
   "main": "./dist/bin",
   "bin": {
@@ -9,6 +9,9 @@
   "files": [
     "dist/"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc -p .",
     "prepare": "npm run build",
