@@ -20,31 +20,22 @@ jobs:
         run: yarn
       - name: Build
         run: yarn workspace @shift-code/api run build
-      - uses: trs/inc-semver@master
+      - name: Version
+        uses: trs/inc-semver@b1a3e1a03f9c1d6e0fc1c4918bdcf69626abe43e
+        id: semver
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
           directory: api
-      # - name: Release
-      #   run: |
-      #     echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-      #     yarn workspace @shift-code/api publish --new-version $(node .github/workflows/currentVersion.js api)
-
-  # get:
-  #   name: "@shift-code/get"
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v1
-  #       with:
-  #         node-version: '12'
-  #     - name: Install
-  #       run: yarn
-  #     - name: Build
-  #       run: yarn workspace @shift-code/get run build
-  #     - name: Release
-  #       run: |
-  #         echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-  #         yarn workspace @shift-code/get publish --new-version $(node .github/workflows/currentVersion.js get)
+      - name: Release
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          yarn workspace @shift-code/api publish --new-version ${{ steps.semver.outputs.nextVersion }}
+      - name: Tag
+        uses: anothrNick/github-tag-action@1.17.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CUSTOM_TAG : ${{ steps.semver.outputs.nextTag }}
+          SOURCE: api
 
   # cli:
   #   name: "@shift-code/cli"
