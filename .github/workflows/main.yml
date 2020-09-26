@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: '12'
       - name: Install
-        run: yarn
+        run: yarn workspace @shift-code/api install
       - name: Build
         run: yarn workspace @shift-code/api run build
       - name: Version
@@ -44,7 +44,7 @@ jobs:
         with:
           node-version: '12'
       - name: Install
-        run: yarn
+        run: yarn workspace @shift-code/get install
       - name: Build
         run: yarn workspace @shift-code/get run build
       - name: Version
@@ -64,20 +64,20 @@ jobs:
           CUSTOM_TAG : ${{ steps.semver.outputs.nextTag }}
           SOURCE: get
 
-  # cli:
-  #   name: "@shift-code/cli"
-  #   needs: [api, get]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v1
-  #       with:
-  #         node-version: '12'
-  #     - name: Install
-  #       run: yarn
-  #     - name: Build
-  #       run: yarn workspace @shift-code/cli run build
-  #     - name: Release
+  cli:
+    name: "@shift-code/cli"
+    needs: [api, get]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - name: Install
+        run: yarn workspace @shift-code/cli install
+      - name: Build
+        run: yarn workspace @shift-code/cli run build
+      - name: Release
   #       run:  |
   #         echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
   #         echo todo

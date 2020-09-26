@@ -2,7 +2,6 @@
   "name": "@shift-code/cli",
   "version": "0.1.2",
   "description": "Redeem Borderlands SHiFT codes automatically",
-  "main": "./dist/bin",
   "bin": {
     "shift-code": "./dist/bin.js"
   },
@@ -13,6 +12,7 @@
     "access": "public"
   },
   "scripts": {
+    "start": "ts-node src/bin.ts",
     "build": "tsc",
     "prepare": "npm run build",
     "pkg": "pkg ./package.json --out-path pkg"
@@ -35,19 +35,27 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/ink": "^2.0.3",
     "@types/mkdirp": "^1.0.0",
     "@types/node": "^12.7.4",
     "@types/prompts": "^2.0.8",
+    "@types/react": "^16.9.49",
     "@types/signale": "^1.4.1",
     "@types/yargs": "^15.0.4",
     "pkg": "^4.4.8",
+    "ts-node": "^9.0.0",
     "typescript": "^3.8.3"
   },
   "dependencies": {
     "@shift-code/api": "^0.1.0",
     "@shift-code/get": "^0.1.1",
+    "ink": "^3.0.6",
+    "ink-multi-select": "git+ssh://git@github.com/leipert/ink-multi-select#leipert-ink-v3",
+    "ink-text-input": "^4.0.1",
+    "meow": "^7.1.1",
     "mkdirp": "^1.0.4",
     "prompts": "^2.3.2",
+    "react": "^16.13.1",
     "signale": "^1.4.0",
     "yargs": "^15.3.1"
   }
