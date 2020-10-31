@@ -18,9 +18,12 @@ Available games:
     .option('-p, --psn [games...]', 'Playstation games')
     .option('-e, --epic [games...]', 'Epic Store games')
 
-    .action((email, password) => {
+    .action(async (email) => {
       const opts = add.opts();
 
+      // If email provided, use it
+      // Else use "current" email
+      // If none, fail
     });
 
 
@@ -39,9 +42,12 @@ Available games:
     .option('-p, --psn [games...]', 'Playstation games')
     .option('-e, --epic [games...]', 'Epic Store games')
 
-    .action((email) => {
+    .action(async (email) => {
       const opts = remove.opts();
 
+      // If email provided, use it
+      // Else use "current" email
+      // If none, fail
     });
 
   return account;
