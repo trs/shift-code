@@ -46,8 +46,8 @@
     "typescript": "^4.4.3"
   },
   "dependencies": {
-    "@shift-code/api": "^0.1.2",
-    "@shift-code/get": "^0.1.2",
+    "@shift-code/api": "^0.2.0",
+    "@shift-code/get": "^0.2.0",
     "mkdirp": "^1.0.4",
     "prompts": "^2.4.2",
     "signale": "^1.4.0",
