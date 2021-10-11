@@ -1,6 +1,6 @@
-# Borderlands Shift Code Repo
+# Gearbox Shift Code Repo
 
-### Monorepo for Borderlands Shift code automatic redemption
+### Monorepo for Gearbox Shift code automatic redemption
 
 ## Packages
 
