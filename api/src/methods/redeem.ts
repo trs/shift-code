@@ -160,7 +160,7 @@ export async function checkRedemptionStatus(jar: CookieJar, url: string) {
   const text = await response.text();
   const $ = cheerio.load(text);
 
-  const notice = $('.notice');
+  const notice = $('.notice:not(#cookie-banner)');
   const status = notice.text().trim();
 
   debug('Redemption status:', status);
