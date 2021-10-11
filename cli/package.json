@@ -29,9 +29,9 @@
   ],
   "pkg": {
     "targets": [
-      "node12-macos",
-      "node12-linux",
-      "node12-win"
+      "node16-macos",
+      "node16-linux",
+      "node16-win"
     ]
   },
   "license": "MIT",
