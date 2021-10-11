@@ -15,7 +15,6 @@
   "scripts": {
     "dev": "ts-node-dev src/bin.ts",
     "build": "tsc --build",
-    "prepare": "npm run build",
     "pkg": "pkg ./package.json --out-path pkg"
   },
   "engines": {

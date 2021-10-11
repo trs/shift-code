@@ -16,7 +16,7 @@ NAME="$(node -e 'process.stdout.write(require("./'"$PKG"'/package.json").name)')
 
 yarn workspace "$NAME" version --no-git-tag-version
 
-VERSION="$(node -e 'process.stdout.write(require("./'"$PKG"'/package.json").version)')"
+VERSION="v$(node -e 'process.stdout.write(require("./'"$PKG"'/package.json").version)')"
 
 git add "./$PKG/package.json"
 git commit -m "chore: bump $NAME to $VERSION"

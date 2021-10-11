@@ -12,8 +12,7 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "tsc",
-    "prepare": "npm run build"
+    "build": "tsc"
   },
   "license": "MIT",
   "devDependencies": {
