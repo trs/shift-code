@@ -1,12 +1,17 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "rootDir": "src",
     "outDir": "dist"
   },
   "include": [
-    "src/**/*.ts"
+    "**/*.ts"
   ],
   "exclude": [
     "**/*.spec.ts"
+  ],
+  "references": [
+    { "path": "../api" },
+    { "path": "../get" }
   ]
 }

@@ -522,6 +522,14 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
+"@shift-code/get@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@shift-code/get/-/get-0.3.0.tgz#20b38d99555bfbcaf77be944b86ea23539a95d93"
+  integrity sha512-ltX9CKyAYOv+vVq90ZzgXBn/cSZ/iDdlx/iKk4n9ou58K0YPKIaxWxAbvYo3mqGDbaOL75DNQUylpFuNy9m5Kg==
+  dependencies:
+    node-fetch "^2.6.5"
+    stream-json "^1.7.3"
+
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.8.3.tgz#3802ddd21a50a949b6721ddd72da36e67e7f1b2d"
