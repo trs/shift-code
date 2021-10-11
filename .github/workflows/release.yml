@@ -1,0 +1,43 @@
+on:
+  push:
+    tags:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: ${{ startsWith(github.ref, 'refs/tags/') }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '16'
+      - name: Get Tag
+        id: tag
+        run: |
+          echo "::set-output name=value::${GITHUB_REF#refs/tags/}"
+      - name: Get Package
+        id: package
+        run: |
+          TAG="${{ steps.tag.outputs.value }}"
+          if [[ "$TAG" =~ @* ]]; then
+            PACKAGE="$(echo "$TAG" | sed -e 's#@[0-9].[0-9].[0-9]$##')"
+          else
+            PACKAGE="@shift-code/cli"
+          fi
+          echo "::set-output name=value::$PACKAGE"
+      - name: Get Version
+        id: version
+        run: |
+          TAG="${{ steps.tag.outputs.value }}"
+          VERSION="$(echo "$TAG" | sed -e 's#.*@\([0-9].[0-9].[0-9]$\)#\1#')"
+          echo "::set-output name=value::$VERSION"
+      - name: Install
+        run: yarn install --pure-lockfile
+      - name: Build
+        run: yarn workspace ${{ steps.package.outputs.value }} run build
+      - name: Release
+        run: |
+          git config user.email "git@tylerstewart.ca"
+          git config user.name "Tyler Stewart"
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          yarn workspace ${{ steps.package.outputs.value }} publish --new-version ${{ steps.version.outputs.value }}

@@ -1,6 +1,6 @@
 {
   "name": "@shift-code/get",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "description": "Get active Gearbox SHiFT codes",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

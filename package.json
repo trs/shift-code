@@ -9,6 +9,9 @@
     "name": "Tyler Stewart",
     "url": "https://tylerstewart.ca"
   },
+  "scripts": {
+    "tag": ".deploy/tag.sh"
+  },
   "private": true,
   "workspaces": [
     "./api",
