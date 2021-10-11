@@ -46,6 +46,7 @@ jobs:
         if: ${{ steps.package.outputs.value == '@shift-code/cli' }}
         uses: softprops/action-gh-release@v1
         with:
+          body: $(git log --graph --pretty=format:'%h - %s' $(git describe --abbrev=0 --tags $(git describe --tags --abbrev=0)^)..HEAD | cat)
           files: cli/pkg/*
       - name: Publish
         run: |
