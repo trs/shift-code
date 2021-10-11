@@ -2,6 +2,8 @@
 
 > Automatically redeem Gearbox Shift codes
 
+![Example of a terminal executing the shift-code command](https://github.com/trs/shift-code/raw/master/cli/docs/shift-code-redeem.gif)
+
 ### Supported Games:
 
 - Borderlands GOTY
