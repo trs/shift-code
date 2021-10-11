@@ -31,6 +31,11 @@ jobs:
           TAG="${{ steps.tag.outputs.value }}"
           VERSION="$(echo "$TAG" | sed -e 's#.*@\([0-9].[0-9].[0-9]$\)#\1#')"
           echo "::set-output name=value::$VERSION"
+      - name: Get Changes
+        id: changes
+        run: |
+          CHANGES=$(git log --graph --pretty=format:'%h - %s' $(git describe --abbrev=0 --tags $(git describe --tags --abbrev=0)^)..HEAD | cat)
+          echo "::set-output name=value::$CHANGES"
       - name: Install
         run: yarn install --pure-lockfile
       - name: Build
@@ -46,7 +51,7 @@ jobs:
         if: ${{ steps.package.outputs.value == '@shift-code/cli' }}
         uses: softprops/action-gh-release@v1
         with:
-          body: $(git log --graph --pretty=format:'%h - %s' $(git describe --abbrev=0 --tags $(git describe --tags --abbrev=0)^)..HEAD | cat)
+          body: ${{ steps.changes.outputs.value }}
           files: cli/pkg/*
       - name: Publish
         run: |
