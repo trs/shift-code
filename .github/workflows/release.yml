@@ -34,7 +34,7 @@ jobs:
       - name: Get Changes
         id: changes
         run: |
-          CHANGES=$(git log --graph --pretty=format:'%h - %s' $(git describe --abbrev=0 --tags $(git describe --tags --abbrev=0)^)..HEAD | cat)
+          CHANGES=$(git log --graph --pretty=format:'%h - %s' "$(git describe --abbrev=0 --tags $(git describe --tags --abbrev=0)^)"..HEAD | cat)
           echo "::set-output name=value::$CHANGES"
       - name: Install
         run: yarn install --pure-lockfile
