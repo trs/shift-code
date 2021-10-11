@@ -22,3 +22,12 @@
     <td align="left">Library for retrieving shift codes</td>
   </tr>
 </table>
+
+## Deployment
+
+- Run `yarn run tag <package>`
+    eg: `yarn run tag cli`
+- Enter new version for package
+- Version will be changed and a tag will be created
+- Tag and commit are then pushed
+- Workflow triggers on tag, publishing to NPM and creating a Github release
