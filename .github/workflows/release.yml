@@ -19,7 +19,7 @@ jobs:
         id: package
         run: |
           TAG="${{ steps.tag.outputs.value }}"
-          if [[ "$TAG" =~ @* ]]; then
+          if [[ "$TAG" =~ @ ]]; then
             PACKAGE="$(echo "$TAG" | sed -e 's#@[0-9].[0-9].[0-9]$##')"
           else
             PACKAGE="@shift-code/cli"
@@ -35,7 +35,19 @@ jobs:
         run: yarn install --pure-lockfile
       - name: Build
         run: yarn workspace ${{ steps.package.outputs.value }} run build
+      - name: Package
+        if: ${{ steps.package.outputs.value == '@shift-code/cli' }}
+        run: |
+          yarn workspace ${{ steps.package.outputs.value }} run pkg
+          for file in cli/pkg/cli-*; do
+            mv "$file" "$(echo "$file" | sed -e s#cli-#shift-code-#)"
+          done
       - name: Release
+        if: ${{ steps.package.outputs.value == '@shift-code/cli' }}
+        uses: softprops/action-gh-release@v1
+        with:
+          files: cli/pkg/*
+      - name: Publish
         run: |
           git config user.email "git@tylerstewart.ca"
           git config user.name "Tyler Stewart"
