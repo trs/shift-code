@@ -8,17 +8,19 @@ export const SHIFT_SERVICE = [
 ];
 
 export const SHIFT_TITLE = [
-  'mopane', // Borderlands 1
-  'willow2', // Borderlands 2
-  'cork', // Borderlands: The Pre-Sequel
-  'oak' // Borderlands 3
+  'mopane',   // Borderlands 1
+  'willow2',  // Borderlands 2
+  'cork',     // Borderlands: The Pre-Sequel
+  'oak',      // Borderlands 3
+  'swan'      // Godfall
 ];
 
 export const GAME_CODE = [
   'bl1',
   'bl2',
   'tps',
-  'bl3'
+  'bl3',
+  'gf'
 ];
 
 export const SERVICE_CODE = [

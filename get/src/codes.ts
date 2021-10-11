@@ -15,7 +15,7 @@ function parseDate(str: string) {
 export async function * getShiftCodes() {
   const response = await fetch(SHIFT_CODES_URL);
 
-  const stream = response.body
+  const stream = response.body!
     .pipe(Pick.withParser({filter: /^0.codes.\d+/}))
     .pipe(streamValues());
 

@@ -1,6 +1,6 @@
 # `@shift-code/get`
 
-> Get active Borderlands SHiFT codes
+> Get active Gearbox SHiFT codes
 
 ## Install
 

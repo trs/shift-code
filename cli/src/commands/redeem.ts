@@ -39,7 +39,8 @@ async function redeemCode(session: Session, code: string) {
     }
 
   } catch (err) {
-    log.fatal(err.message);
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    log.fatal(message);
     console.log();
   }
 
