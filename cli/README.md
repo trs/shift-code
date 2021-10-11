@@ -19,11 +19,11 @@
 
 ## Install
 
-Download the [latest binary release](https://github.com/trs/shift-code/releases) (`v0.1.2`) for your platform:
+Download the [latest binary release](https://github.com/trs/shift-code/releases/latest) for your platform:
 
-- [Windows](https://github.com/trs/shift-code/releases/download/v0.1.2/shift-code-win.exe)
-- [MacOS](https://github.com/trs/shift-code/releases/download/v0.1.2/shift-code-macos)
-- [Linux](https://github.com/trs/shift-code/releases/download/v0.1.2/shift-code-linux)
+- [Windows](https://github.com/trs/shift-code/releases/latest/download/shift-code-win.exe)
+- [MacOS](https://github.com/trs/shift-code/releases/latest/download/shift-code-macos)
+- [Linux](https://github.com/trs/shift-code/releases/latest/download/shift-code-linux)
 
 Or, run via NodeJS:
 
