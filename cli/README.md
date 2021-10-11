@@ -1,6 +1,6 @@
 # `@shift-code/cli`
 
-> Automatically redeem Borderlands Shift codes
+> Automatically redeem Gearbox Shift codes
 
 ### Supported Games:
 
@@ -8,6 +8,7 @@
 - Borderlands 2
 - Borderlands: The Pre-Sequel
 - Borderlands 3
+- Godfall
 
 ### Supported Platforms:
 

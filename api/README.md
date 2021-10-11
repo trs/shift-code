@@ -1,6 +1,6 @@
 # `@shift-code/api`
 
-> Borderlands SHiFT code redemption library
+> Gearbox SHiFT code redemption library
 
 ## Install
 

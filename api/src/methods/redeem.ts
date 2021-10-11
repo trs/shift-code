@@ -192,23 +192,24 @@ export async function redeemOption(jar: CookieJar, option: RedemptionOption) {
 
     return result;
   } catch (err) {
-    if (err.message.includes("please launch a SHiFT-enabled title first")) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    if (message.includes("please launch a SHiFT-enabled title first")) {
       return {
         code: option.code,
         error: ErrorCodes.LaunchGame,
-        status: err.message
+        status: message
       }
-    } else if (err.message.includes("Invalid redemption option result")) {
+    } else if (message.includes("Invalid redemption option result")) {
       return {
         code: option.code,
         error: ErrorCodes.LoginRequired,
-        status: err.message
+        status: message
       }
     } else {
       return {
         code: option.code,
         error: ErrorCodes.Unknown,
-        status: err.message
+        status: message
       }
     }
   }

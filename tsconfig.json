@@ -8,5 +8,8 @@
     "moduleResolution": "node",
     "declaration": true,
     "esModuleInterop": true
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }
