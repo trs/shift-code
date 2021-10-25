@@ -35,13 +35,11 @@ async function redeemCode(session: Session, code: string) {
           log.error(message);
           break;
       }
-      console.log();
     }
 
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
     log.fatal(message);
-    console.log();
   }
 
   return true;
@@ -54,7 +52,7 @@ export async function redeemCommand(args: Arguments<RedeemParameters>) {
 
   if (Object.keys(session).length === 0) {
     log.error('Please login first!');
-    log.note('$ shift-code-redeemer login');
+    log.note('$ shift-code login');
     return;
   }
 
