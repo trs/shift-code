@@ -1,9 +1,9 @@
 import { Arguments } from 'yargs';
 import { Signale } from 'signale';
-import { login } from '@shift-code/api';
+import { account, login } from '@shift-code/api';
 
 import { tryPromptArgs } from '../shared';
-import { storeContents, SESSION_FILE } from '../store';
+import { saveAccountSession, saveActiveAccount, saveAccount, loadCache } from '../cache';
 
 export interface LoginParameters {
   email?: string;
@@ -13,12 +13,36 @@ export interface LoginParameters {
 export async function loginCommand(args: Arguments<LoginParameters>) {
   const tryPrompt = tryPromptArgs(args);
 
+  const log = new Signale();
+
+  const cache = await loadCache();
+
   const email = await tryPrompt({
     name: 'email',
     type: 'text',
     message: 'SHiFT email',
     validate: (value) => !!value
   });
+
+  // If user is already saved
+  const existingAccount = Object.values(cache.accounts ?? {})
+    .find((acc) => acc.account?.email === email);
+
+  if (existingAccount && existingAccount.session) {
+    const user = await account(existingAccount.session)
+      .catch(() => null);
+
+    if (user) {
+      await saveActiveAccount(user.id);
+      await saveAccount(user);
+
+      log.success('Changed active account');
+      log.info(`  Name:   ${user.name}`);
+      log.info(`  Email:  ${user.email}`);
+
+      return;
+    }
+  }
 
   const password = await tryPrompt({
     name: 'password',
@@ -28,11 +52,11 @@ export async function loginCommand(args: Arguments<LoginParameters>) {
   });
 
   const session = await login({email, password});
+  const user = await account(session);
 
-  await storeContents(SESSION_FILE, session);
+  await saveActiveAccount(user.id);
+  await saveAccountSession(user.id, session);
+  await saveAccount(user);
 
-  const log = new Signale();
   log.success('Login successful!');
-
-  return session;
 }

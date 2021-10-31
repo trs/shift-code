@@ -1,14 +1,22 @@
 import { Signale } from 'signale';
 
-import { storeContents, CACHE_FILE } from '../store';
-
+import { clearCodeCache, loadAccount } from '../cache';
 
 export async function cacheCommand() {
   const log = new Signale({interactive: true});
 
+  const account = await loadAccount();
+  if (!account) {
+    log.error('No active user, please login.');
+    log.note('$ shift-code login');
+    return;
+  }
+
+  log.scope(account.email);
+
   log.await('Clearing cache...');
 
-  await storeContents(CACHE_FILE, []);
+  await clearCodeCache();
 
   log.success('Cache cleared');
 }

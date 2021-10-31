@@ -1,14 +1,17 @@
 import { Signale } from 'signale';
-import { Session, logout } from '@shift-code/api';
+import { logout } from '@shift-code/api';
 
-import { loadContents, storeContents, SESSION_FILE } from '../store';
+import { loadAccountSession, clearAccountSession } from '../cache';
 
 export async function logoutCommand() {
-  const session = await loadContents<Session>(SESSION_FILE);
-
-  await logout(session);
-  await storeContents<any>(SESSION_FILE, {});
-
   const log = new Signale();
+
+  const session = await loadAccountSession();
+
+  if (session) {
+    await logout(session).catch(() => void 0);
+    await clearAccountSession();
+  }
+
   log.success('Logout successful!');
 }

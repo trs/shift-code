@@ -3,8 +3,8 @@ import { Session, ErrorCodes, redeem, account } from '@shift-code/api';
 import { getShiftCodes } from '@shift-code/get';
 import { Signale } from 'signale';
 
-import { loadContents, storeContents, SESSION_FILE, CACHE_FILE } from '../store';
-import { CacheStore } from '../types';
+import { loadAccountSession, loadCodeCache, saveAccount, appendCodeCache } from '../cache';
+import { GameName, isGameName, PlatformName, isPlatformName } from '../names';
 
 export interface RedeemParameters {
   codes?: string[];
@@ -16,10 +16,13 @@ async function redeemCode(session: Session, code: string) {
   try {
     log.await('Redeeming...');
     for await (const result of redeem(session, code)) {
-      let scope = [result.service, result.title].filter(Boolean).join(', ');
+      const game = isGameName(result.title) ? GameName[result.title] : result.title;
+      const platform = isPlatformName(result.service) ? PlatformName[result.service] : result.service;
+
+      let scope = [platform, game].filter(Boolean).join(', ');
       scope = scope ? `(${scope}) ` : '';
 
-      const message = `${scope}${result.status}`;
+      const message = `${scope}${result.status}`.trim();
 
       switch (result.error) {
         case ErrorCodes.Success:
@@ -48,19 +51,20 @@ async function redeemCode(session: Session, code: string) {
 export async function redeemCommand(args: Arguments<RedeemParameters>) {
   const log = new Signale();
 
-  const session = await loadContents<Session>(SESSION_FILE);
-
-  if (Object.keys(session).length === 0) {
-    log.error('Please login first!');
+  const session = await loadAccountSession();
+  if (!session) {
+    log.error('No active user, please login.');
     log.note('$ shift-code login');
     return;
   }
 
-  const acc = await account(session);
-  log.scope(acc.email).info('Starting code redemption');
+  const user = await account(session);
+  await saveAccount(user);
+
+  log.scope(user.email).info('Starting code redemption');
   log.unscope();
 
-  const cache = await loadContents<CacheStore>(CACHE_FILE, []);
+  const cache = await loadCodeCache() ?? [];
 
   const source = args.codes ? args.codes.map((code) => ({code})) : getShiftCodes();
 
@@ -75,7 +79,7 @@ export async function redeemCommand(args: Arguments<RedeemParameters>) {
     if (!cont) return;
 
     cache.push(code);
-    await storeContents(CACHE_FILE, cache);
+    await appendCodeCache(code);
   }
 
   log.star('Complete');

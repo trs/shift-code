@@ -1,8 +1,8 @@
 {
   "references": [
     { "path": "./api" },
-    { "path": "./get" },
-    { "path": "./cli" }
+    { "path": "./cli" },
+    { "path": "./get" }
   ],
   "compilerOptions": {
     "module": "commonjs",
