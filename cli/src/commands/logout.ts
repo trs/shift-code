@@ -1,17 +1,18 @@
-import { Signale } from 'signale';
 import { logout } from '@shift-code/api';
+import chalk from 'chalk';
 
-import { loadAccountSession, clearAccountSession } from '../cache';
+import { loadAccountCache, clearAccountSession, loadMetaCache, clearMetaActiveAccount } from '../cache';
 
 export async function logoutCommand() {
-  const log = new Signale();
-
-  const session = await loadAccountSession();
-
-  if (session) {
-    await logout(session).catch(() => void 0);
-    await clearAccountSession();
+  const cache = await loadMetaCache();
+  if (cache.activeAccountID) {
+    const {session} = await loadAccountCache(cache.activeAccountID);
+    if (session) {
+      await logout(session).catch(() => void 0);
+      await clearAccountSession(cache.activeAccountID);
+    }
+    await clearMetaActiveAccount();
   }
 
-  log.success('Logout successful!');
+  console.log(chalk.green('Logout successful'));
 }

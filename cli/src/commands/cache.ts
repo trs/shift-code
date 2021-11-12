@@ -1,22 +1,23 @@
-import { Signale } from 'signale';
+import chalk from 'chalk';
 
-import { clearCodeCache, loadAccount } from '../cache';
+import { clearCodeCache, loadAccountCache, loadMetaCache } from '../cache';
 
 export async function cacheCommand() {
-  const log = new Signale({interactive: true});
-
-  const account = await loadAccount();
-  if (!account) {
-    log.error('No active user, please login.');
-    log.note('$ shift-code login');
+  const {activeAccountID} = await loadMetaCache();
+  if (!activeAccountID) {
+    console.error('No active user, please login.');
+    console.info('$ shift-code login');
     return;
   }
 
-  log.scope(account.email);
+  const user = await loadAccountCache(activeAccountID);
+  if (!user.account) {
+    console.error('No active user, please login.');
+    console.info('$ shift-code login');
+    return;
+  }
 
-  log.await('Clearing cache...');
+  await clearCodeCache(user.account.id);
 
-  await clearCodeCache();
-
-  log.success('Cache cleared');
+  console.info(`Cache cleared for ${chalk.bold(user.account.email)}`);
 }

@@ -14,9 +14,11 @@ const rmAsync = promisify(rm);
 const homedir = os.homedir();
 const {env} = process;
 
+export const ACCOUNT_CACHE = 'account';
+export const META_CACHE = '';
+export const META_FILE = 'meta';
 export const SESSION_FILE = 'session';
 export const CACHE_FILE = 'cache';
-export const ACCOUNT_FILE = 'account';
 
 export function getStorePath() {
   // macos
@@ -37,11 +39,10 @@ export function getStorePath() {
   return path.join(env.XDG_DATA_HOME || path.join(homedir, '.local', 'share'), name);
 }
 
-const getStoreFilePath = (name: string) => path.join(getStorePath(), `${name}.json`);
+const getStoreFilePath = (cache: string, name: string) => path.join(getStorePath(), `${[cache, name].filter(Boolean).join('-')}.json`);
 
-export async function storeExists(name: string) {
-  const filePath = getStoreFilePath(name);
-  console.log(filePath)
+export async function storeExists(cache: string, id: string) {
+  const filePath = getStoreFilePath(cache, id);
   try {
     const stat = await statAsync(filePath);
     return stat.isFile();
@@ -50,8 +51,8 @@ export async function storeExists(name: string) {
   }
 }
 
-export async function deleteStoreFile(name: string) {
-  const filePath = getStoreFilePath(name);
+export async function deleteStoreFile(cache: string, id: string) {
+  const filePath = getStoreFilePath(cache, id);
   try {
     await rmAsync(filePath);
   } finally {
@@ -59,25 +60,25 @@ export async function deleteStoreFile(name: string) {
   }
 }
 
-export async function storeContents<T>(name: string, contents: T): Promise<string> {
-  const filePath = getStoreFilePath(name);
+export async function storeContents<T>(cache: string, id: string, contents: T): Promise<string> {
+  const filePath = getStoreFilePath(cache, id);
   const storePath = getStorePath();
 
   await mkdirp(storePath);
-  await writeFileAsync(filePath, JSON.stringify(contents));
+  await writeFileAsync(filePath, JSON.stringify(contents), {encoding: 'utf-8'});
 
   return filePath;
 }
 
-export async function loadContents<T>(name: string, defaultContent?: T): Promise<T> {
-  const filePath = getStoreFilePath(name);
+export async function loadContents<T>(cache: string, id: string, defaultContent?: T): Promise<T> {
+  const filePath = getStoreFilePath(cache, id);
 
   try {
-    const data = await readFileAsync(filePath);
-    const json = JSON.parse(data.toString()) as T;
+    const data = await readFileAsync(filePath, {encoding: 'utf-8'});
+    const json = JSON.parse(data) as T;
     return json;
   } catch (err) {
-    await storeContents(name, JSON.stringify(defaultContent));
+    await storeContents(cache, id, JSON.stringify(defaultContent));
 
     return defaultContent ?? {} as T;
   }

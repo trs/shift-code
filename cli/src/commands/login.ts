@@ -1,9 +1,9 @@
 import { Arguments } from 'yargs';
-import { Signale } from 'signale';
 import { account, login } from '@shift-code/api';
+import chalk from 'chalk';
 
 import { tryPromptArgs } from '../shared';
-import { saveAccountSession, saveActiveAccount, saveAccount, loadCache } from '../cache';
+import { saveAccountSession, saveMetaActiveAccount, saveAccount, loadAccountCache, loadMetaCache, saveMetaAccount } from '../cache';
 
 export interface LoginParameters {
   email?: string;
@@ -13,9 +13,7 @@ export interface LoginParameters {
 export async function loginCommand(args: Arguments<LoginParameters>) {
   const tryPrompt = tryPromptArgs(args);
 
-  const log = new Signale();
-
-  const cache = await loadCache();
+  const cache = await loadMetaCache();
 
   const email = await tryPrompt({
     name: 'email',
@@ -24,23 +22,23 @@ export async function loginCommand(args: Arguments<LoginParameters>) {
     validate: (value) => !!value
   });
 
-  // If user is already saved
-  const existingAccount = Object.values(cache.accounts ?? {})
-    .find((acc) => acc.account?.email === email);
+  // If user is already saved, switch to it without requiring another login
+  for (const accountID of cache.accounts ?? []) {
+    const existingAccount = await loadAccountCache(accountID);
+    if (existingAccount.account?.email === email && existingAccount.session) {
+      const user = await account(existingAccount.session)
+        .catch(() => null);
 
-  if (existingAccount && existingAccount.session) {
-    const user = await account(existingAccount.session)
-      .catch(() => null);
+      if (user) {
+        await saveMetaActiveAccount(user.id);
+        await saveAccount(user.id, user);
 
-    if (user) {
-      await saveActiveAccount(user.id);
-      await saveAccount(user);
+        console.log('Changed active account');
+        console.info(`  Name:   ${user.name}`);
+        console.info(`  Email:  ${user.email}`);
 
-      log.success('Changed active account');
-      log.info(`  Name:   ${user.name}`);
-      log.info(`  Email:  ${user.email}`);
-
-      return;
+        return;
+      }
     }
   }
 
@@ -54,9 +52,10 @@ export async function loginCommand(args: Arguments<LoginParameters>) {
   const session = await login({email, password});
   const user = await account(session);
 
-  await saveActiveAccount(user.id);
+  await saveMetaActiveAccount(user.id);
+  await saveMetaAccount(user.id);
   await saveAccountSession(user.id, session);
-  await saveAccount(user);
+  await saveAccount(user.id, user);
 
-  log.success('Login successful!');
+  console.log(chalk.green('Login successful'));
 }

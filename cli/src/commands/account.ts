@@ -1,25 +1,44 @@
-import { Signale } from 'signale';
+import chalk from 'chalk';
+import { table, getBorderCharacters } from 'table';
 
-import { loadCache } from '../cache';
+import { loadMetaCache, loadAccountCache } from '../cache';
 
 export async function accountCommand() {
-  const log = new Signale();
-
-  const cache = await loadCache();
-  const accounts = Object.values(cache.accounts ?? {});
-  if (accounts.length === 0) {
-    log.info('No saved accounts, login to add one.');
-    log.note('$ shift-code login');
+  const cache = await loadMetaCache();
+  if (!cache.accounts?.length) {
+    console.error('No saved accounts, login to add one.');
+    console.info('$ shift-code login');
     return;
   }
 
-  log.info('Saved accounts:');
-  for (const user of accounts) {
-    const isActiveAccount = typeof cache.activeAccountID === 'string'
-      && cache.activeAccountID === user.account?.id;
-    // log.info(`  ID:     ${user.account?.id}`);
-    log.info(`  Name:   ${user.account?.name}`);
-    log.info(`  Email:  ${user.account?.email}`);
-    log.info(`  Active: ${isActiveAccount ? 'Y' : ''}`);
+  const list: string[][] = [
+    [
+      chalk.bold('Name'),
+      chalk.bold('Email'),
+      chalk.bold('Active')
+    ]
+  ];
+  for (const accountID of cache.accounts) {
+    try {
+      const user = await loadAccountCache(accountID);
+      if (!user.account) continue;
+
+      const isActiveAccount = typeof cache.activeAccountID === 'string'
+        && cache.activeAccountID === user.account?.id;
+
+      list.push([
+        user.account?.name,
+        user.account?.email,
+        isActiveAccount ? chalk.green('Y') : ''
+      ]);
+    } catch {}
   }
+
+  console.log(table(list, {
+    header: {
+      alignment: 'left',
+      content: 'Saved accounts'
+    },
+    border: getBorderCharacters('norc')
+  }));
 }

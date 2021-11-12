@@ -1,28 +1,28 @@
 import { Session, account } from '@shift-code/api';
-import { cacheExists, saveAccount, saveAccountSession, saveActiveAccount, saveCodeCache } from '.';
-import { CacheStore } from '../types';
+import { metaCacheExists, saveAccount, saveAccountSession, saveMetaActiveAccount, saveCodeCache, saveMetaAccount } from '.';
 import { SESSION_FILE, CACHE_FILE, loadContents, deleteStoreFile } from './store';
 
 export async function migrateOldCache() {
-  if (await cacheExists()) {
+  if (await metaCacheExists()) {
     return;
   }
 
-  const session = await loadContents<Session>(SESSION_FILE);
+  const codes = await loadContents<string[]>('', CACHE_FILE, []);
+  const session = await loadContents<Session>('', SESSION_FILE);
   const user = await account(session)
     .catch(() => null);
 
   if (user) {
-    await saveActiveAccount(user.id);
+    await saveMetaAccount(user.id);
+    await saveMetaActiveAccount(user.id);
     await saveAccountSession(user.id, session);
-    await saveAccount(user);
+    await saveAccount(user.id, user);
+
+    await saveCodeCache(user.id, codes);
   }
 
-  const codes = await loadContents<CacheStore>(CACHE_FILE, []);
-  await saveCodeCache(codes);
-
-  // await Promise.all([
-  //   deleteStoreFile(SESSION_FILE),
-  //   deleteStoreFile(CACHE_FILE)
-  // ]);
+  await Promise.all([
+    deleteStoreFile('', SESSION_FILE),
+    deleteStoreFile('', CACHE_FILE)
+  ]);
 }
