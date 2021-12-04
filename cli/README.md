@@ -50,6 +50,8 @@ shift-code login [--email <email>] [--password <password>]
 
 Login to a SHiFT account. Stores the session in the config location.
 
+If the email is already associated to an account, it will switch that account to the current active account.
+
 ### `logout`
 
 ```sh
@@ -58,21 +60,29 @@ shift-code logout
 
 Logout from SHiFT and remove the stored session.
 
+### `accounts`
+
+```sh
+shift-code accounts
+```
+
+List all saved accounts, show current active account
+
 ### `redeem`
 
 ```sh
 shift-code redeem [codes...]
 ```
 
-Redeem the given codes or all available codes using the current login session.
+Redeem the given codes or all available codes on the current active account.
 
-### `cache-clear`
+### `cache clear`
 
 ```sh
-shift-code cache-clear
+shift-code cache clear
 ```
 
-Remove all codes from the redemption cache.
+Remove all codes from the redemption cache for the current active account.
 
 ## FAQ
 
