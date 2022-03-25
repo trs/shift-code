@@ -9,8 +9,10 @@ export const GameName = {
 export const PlatformName = {
   'steam': 'Steam',
   'xbox': 'Xbox',
+  'xboxlive': 'Xbox Live',
   'psn': 'Playstation',
-  'epic': 'Epic Games'
+  'epic': 'Epic Games',
+  'stadia': 'Stadia'
 }
 
 export function isGameName(name: string | undefined): name is keyof typeof GameName {
