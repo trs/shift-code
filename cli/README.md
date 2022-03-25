@@ -54,6 +54,21 @@ Login to a SHiFT account. Stores the session in the config location.
 
 If the email is already associated to an account, it will switch that account to the current active account.
 
+### `redeem`
+
+```sh
+shift-code redeem [codes...] [--game <name>] [--platform <name>]
+```
+
+Redeem the given codes or all available codes on the current active account.
+
+You can optionally provide one or more `--game` flags to only redeem codes for those games. Same with `--platform`.
+
+```sh
+# Will only redeem codes that are for Borderlands 2 and 3 for Xbox
+shift-code redeem --game bl2 --game bl3 --platform xbox
+```
+
 ### `logout`
 
 ```sh
@@ -69,14 +84,6 @@ shift-code accounts
 ```
 
 List all saved accounts, show current active account
-
-### `redeem`
-
-```sh
-shift-code redeem [codes...]
-```
-
-Redeem the given codes or all available codes on the current active account.
 
 ### `cache clear`
 
