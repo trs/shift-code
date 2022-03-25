@@ -6,6 +6,7 @@
 
 ### Supported Games:
 
+- Tiny Tina's Wonderlands
 - Borderlands GOTY
 - Borderlands 2
 - Borderlands: The Pre-Sequel
@@ -17,7 +18,8 @@
 - Steam
 - Epic
 - PSN
-- Xbox Live
+- Xbox
+- Stadia
 
 ## Install
 
@@ -50,6 +52,8 @@ shift-code login [--email <email>] [--password <password>]
 
 Login to a SHiFT account. Stores the session in the config location.
 
+If the email is already associated to an account, it will switch that account to the current active account.
+
 ### `logout`
 
 ```sh
@@ -58,23 +62,32 @@ shift-code logout
 
 Logout from SHiFT and remove the stored session.
 
+### `accounts`
+
+```sh
+shift-code accounts
+```
+
+List all saved accounts, show current active account
+
 ### `redeem`
 
 ```sh
 shift-code redeem [codes...]
 ```
 
-Redeem the given codes or all available codes using the current login session.
+Redeem the given codes or all available codes on the current active account.
 
-### `cache-clear`
+### `cache clear`
 
 ```sh
-shift-code cache-clear
+shift-code cache clear
 ```
 
-Remove all codes from the redemption cache.
+Remove all codes from the redemption cache for the current active account.
 
 ## FAQ
 
-1. What does `"You need to launch a Borderlands game to continue redeeming"` mean?
-    - You can only redeem a certain number of SHiFT codes before you'll see this. It means you need to open a SHiFT enabled title (a Borderlands game) and play past the main menu. Once you're loaded in, you can exit the game and continue redeeming.
+1. What does `"You need to launch a Shift-enabled game to continue redeeming"` mean?
+    - You can only redeem a certain number of SHiFT codes before you'll see this. It means you need to open a SHiFT enabled title and play past the main menu. Once you're loaded in, you can exit the game and continue redeeming.
+    - Alternatively, this error will go away after a certain amount of time.

@@ -1,14 +1,5 @@
 {
   "name": "@shift-code/redeem",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/trs/shift-code.git"
-  },
-  "author": {
-    "email": "git@tylerstewart.ca",
-    "name": "Tyler Stewart",
-    "url": "https://tylerstewart.ca"
-  },
   "scripts": {
     "tag": ".deploy/tag.sh"
   },

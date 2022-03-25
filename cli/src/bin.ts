@@ -2,8 +2,10 @@
 
 import yargs from 'yargs';
 import { Arguments } from 'yargs';
+import { migrateOldCache } from './cache/migrate';
 
-import { loginCommand, logoutCommand, redeemCommand, cacheCommand } from './commands';
+import { loginCommand, logoutCommand, redeemCommand, cacheCommand, accountCommand } from './commands';
+import { GameName, PlatformName } from './names';
 
 const runCommand = <T>(fn: (args: Arguments<T>) => Promise<any>) => (args: Arguments<T>) => {
   fn(args)
@@ -12,19 +14,74 @@ const runCommand = <T>(fn: (args: Arguments<T>) => Promise<any>) => (args: Argum
     });
 };
 
-yargs
-  .command('login', 'Create a login session for redemption', (yarg) => {
-    yarg.option('email', {alias: 'e'});
-    yarg.option('password', {alias: 'p'});
-  }, runCommand(loginCommand))
-  
-  .command('logout', 'Remove login session', {}, runCommand(logoutCommand))
+void async function () {
+  await migrateOldCache();
 
-  .command('redeem [codes...]', 'Redeem all available codes or the given codes if provided', {}, runCommand(redeemCommand))
-  
-  .command('cache-clear', 'Clear redemption cache', {}, runCommand(cacheCommand))
-
-  .help()
-  .demandCommand(1, '')
-  .strict()
-  .argv;
+  yargs
+    .command({
+      command: 'login',
+      describe: 'Login to a new account',
+      handler: runCommand(loginCommand),
+      builder: {
+        email: {
+          alias: 'e'
+        },
+        password: {
+          alias: 'p'
+        }
+      }
+    })
+    .command({
+      command: 'logout',
+      describe: 'Logout of current account, or specified account',
+      handler: runCommand(logoutCommand),
+      builder: {
+        email: {
+          alias: 'e'
+        }
+      }
+    })
+    .command({
+      command: 'accounts',
+      describe: 'Show all accounts, marking the currently active account',
+      handler: runCommand(accountCommand)
+    })
+    .command({
+      command: 'cache <command>',
+      describe: 'Manage cached Shift codes',
+      handler: () => {},
+      builder: (yargs) => yargs
+        .command({
+          command: 'clear',
+          describe: 'Clear code cache for current account, or specified account',
+          handler: runCommand(cacheCommand),
+          builder: {
+            email: {
+              alias: 'e'
+            }
+          }
+        })
+    })
+    .command({
+      command: 'redeem [codes...]',
+      describe: 'Redeem all available codes or the given codes if provided',
+      handler: runCommand(redeemCommand),
+      builder: {
+        game: {
+          alias: 'g',
+          array: true,
+          choices: Object.keys(GameName)
+        },
+        platform: {
+          alias: 'p',
+          array: true,
+          choices: Object.keys(PlatformName)
+        }
+      }
+    })
+    .help()
+    .version()
+    .demandCommand()
+    .strict()
+    .argv;
+}();

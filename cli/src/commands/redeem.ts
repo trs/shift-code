@@ -1,84 +1,105 @@
 import { Arguments } from 'yargs';
 import { Session, ErrorCodes, redeem, account } from '@shift-code/api';
 import { getShiftCodes } from '@shift-code/get';
-import { Signale } from 'signale';
+import chalk from 'chalk';
 
-import { loadContents, storeContents, SESSION_FILE, CACHE_FILE } from '../store';
-import { CacheStore } from '../types';
+import { saveAccount, appendCodeCache, loadMetaCache, loadAccountCache } from '../cache';
+import { GameName, isGameName, PlatformName, isPlatformName, IPlatformName, IGameName } from '../names';
 
-export interface RedeemParameters {
+export interface RedeemFilter {
+  platform?: IPlatformName[];
+  game?: IGameName[];
+}
+
+export interface RedeemParameters extends RedeemFilter {
   codes?: string[];
 }
 
-async function redeemCode(session: Session, code: string) {
-  const log = new Signale({interactive: true}).scope(code);
-
+async function redeemCode(session: Session, code: string, filter: RedeemFilter): Promise<[cont: boolean, cache: boolean]> {
   try {
-    log.await('Redeeming...');
-    for await (const result of redeem(session, code)) {
-      let scope = [result.service, result.title].filter(Boolean).join(', ');
-      scope = scope ? `(${scope}) ` : '';
+    let game: IGameName | string | undefined;
 
-      const message = `${scope}${result.status}`;
+    process.stdout.write(`[${chalk.yellow(code)}] Redeeming...`);
+    for await (const result of redeem(session, code, filter)) {
+      const platform = isPlatformName(result.service) ? PlatformName[result.service] : result.service;
+
+      if (!game) {
+        process.stdout.write("\r\x1b[K");
+
+        game = isGameName(result.title) ? GameName[result.title] : result.title;
+
+        const gameName = game ? ` ${game}` : '';
+        console.log(`[${chalk.yellow(code)}]${gameName}`);
+      }
+
+      const scope = platform ? `[${platform}] ` : '';
+      const message = `${scope}${result.status}`.trim();
 
       switch (result.error) {
         case ErrorCodes.Success:
-          log.success(message);
+          console.info(` > ${message}`);
           break;
         case ErrorCodes.LoginRequired:
-          log.fatal('Failed to redeem due to invalid session. Please login again!');
-          return false;
+          console.error(` > ${chalk.red('Failed to redeem due to invalid session. Please login again!')}`);
+          return [false, false];
         case ErrorCodes.LaunchGame:
-          log.fatal('You need to launch a Borderlands game to continue redeeming.');
-          return false;
+          console.error(` > ${chalk.redBright('You need to launch a Shift-enabled game to continue redeeming.')}`);
+          return [false, false];
+        case ErrorCodes.SkippedDueToFilter:
+          console.error(` > ${message}`);
+          return [true, false];
         default:
-          log.error(message);
+          console.error(` > ${message}`);
           break;
       }
-      console.log();
     }
 
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
-    log.fatal(message);
-    console.log();
+    console.error(chalk.bgRed.white(message));
   }
 
-  return true;
+  return [true, true];
 }
 
 export async function redeemCommand(args: Arguments<RedeemParameters>) {
-  const log = new Signale();
-
-  const session = await loadContents<Session>(SESSION_FILE);
-
-  if (Object.keys(session).length === 0) {
-    log.error('Please login first!');
-    log.note('$ shift-code-redeemer login');
+  const {activeAccountID} = await loadMetaCache();
+  if (!activeAccountID) {
+    console.error('No active user, please login.');
+    console.info('$ shift-code login');
     return;
   }
 
-  const acc = await account(session);
-  log.scope(acc.email).info('Starting code redemption');
-  log.unscope();
+  const {session, codes} = await loadAccountCache(activeAccountID);
+  if (!session) {
+    console.error('No active user, please login.');
+    console.info('$ shift-code login');
+    return;
+  }
 
-  const cache = await loadContents<CacheStore>(CACHE_FILE, []);
+  const user = await account(session);
+  await saveAccount(user.id, user);
+
+  console.info(`Starting code redemption for: ${chalk.bold(user.email)}`);
+
+  const codeCache = codes ?? [];
 
   const source = args.codes ? args.codes.map((code) => ({code})) : getShiftCodes();
 
   for await (const {code} of source) {
-    if (cache.includes(code)) {
-      log.scope(code).note('Code found in cache, skipping.');
-      log.unscope();
+    if (codeCache.includes(code)) {
+      console.info(`[${chalk.yellow(code)}] Code found in cache, skipping.`);
       continue;
     }
 
-    const cont = await redeemCode(session, code);
+    const [cont, cache] = await redeemCode(session, code, {game: args.game, platform: args.platform});
     if (!cont) return;
 
-    cache.push(code);
-    await storeContents(CACHE_FILE, cache);
+    if (cache) {
+      codeCache.push(code);
+      await appendCodeCache(user.id, code);
+    }
   }
 
-  log.star('Complete');
+  console.log(chalk.green('Complete'));
 }

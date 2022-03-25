@@ -5,7 +5,7 @@ import { CookieJar } from "tough-cookie";
 import * as fetch from '../fetch';
 import { createSessionCookieJar } from "../cookie";
 import { SHIFT_URL, GAME_CODE, SHIFT_TITLE, SERVICE_CODE, SHIFT_SERVICE } from "../const";
-import { Session, RedemptionOption, RedemptionResult, ErrorCodes } from "../types";
+import { Session, RedemptionOption, RedemptionResult, ErrorCodes, RedeemFilter, ShiftService, ShiftTitle } from "../types";
 
 import createDebugger from 'debug';
 const debug = createDebugger('redeem');
@@ -48,8 +48,8 @@ export async function getRedemptionOptions(token: string, jar: CookieJar, code: 
     const token = $(element).find('input[name=authenticity_token]').val();
     const code = $(element).find('#archway_code_redemption_code').val();
     const check = $(element).find('#archway_code_redemption_check').val();
-    const service = $(element).find('#archway_code_redemption_service').val();
-    const title = $(element).find('#archway_code_redemption_title').val();
+    const service = $(element).find('#archway_code_redemption_service').val() as ShiftService;
+    const title = $(element).find('#archway_code_redemption_title').val() as ShiftTitle;
 
     options.push({
       token,
@@ -215,7 +215,7 @@ export async function redeemOption(jar: CookieJar, option: RedemptionOption) {
   }
 }
 
-export async function* redeem(session: Session, code: string, ...services: string[]): AsyncGenerator<RedemptionResult> {
+export async function* redeem(session: Session, code: string, filter?: RedeemFilter): AsyncGenerator<RedemptionResult> {
   const jar = createSessionCookieJar(session);
 
   const [error, status] = await getRedemptionOptions(session.token, jar, code);
@@ -228,12 +228,31 @@ export async function* redeem(session: Session, code: string, ...services: strin
     return;
   }
 
-  let options = status as RedemptionOption[];
-  if (services.length > 0) {
-    options = options.filter(({service}) => services.includes(service));
-  }
-
+  const options = status as RedemptionOption[];
   for await (const option of options) {
+    const platform = SERVICE_CODE[SHIFT_SERVICE.indexOf(option.service)];
+    const game = GAME_CODE[SHIFT_TITLE.indexOf(option.title)];
+
+    if (filter?.platform?.length && !filter.platform.includes(platform)) {
+      yield {
+        code,
+        status: 'Filtered out by platform',
+        error: ErrorCodes.SkippedDueToFilter,
+        service: platform,
+        title: game
+      }
+    }
+
+    if (filter?.game?.length && !filter.game.includes(game)) {
+      yield {
+        code,
+        status: 'Filtered out by game',
+        error: ErrorCodes.SkippedDueToFilter,
+        service: platform,
+        title: game
+      }
+    }
+
     const result = await redeemOption(jar, option);
     yield result;
   }
