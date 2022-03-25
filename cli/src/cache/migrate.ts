@@ -8,7 +8,7 @@ export async function migrateOldCache() {
   }
 
   const codes = await loadContents<string[]>('', CACHE_FILE, []);
-  const session = await loadContents<Session>('', SESSION_FILE);
+  const session = await loadContents<Session>('', SESSION_FILE, {} as any);
   const user = await account(session)
     .catch(() => null);
 

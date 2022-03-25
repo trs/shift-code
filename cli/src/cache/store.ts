@@ -70,7 +70,7 @@ export async function storeContents<T>(cache: string, id: string, contents: T): 
   return filePath;
 }
 
-export async function loadContents<T>(cache: string, id: string, defaultContent?: T): Promise<T> {
+export async function loadContents<T>(cache: string, id: string, defaultContent: T): Promise<T> {
   const filePath = getStoreFilePath(cache, id);
 
   try {
@@ -78,8 +78,7 @@ export async function loadContents<T>(cache: string, id: string, defaultContent?
     const json = JSON.parse(data) as T;
     return json;
   } catch (err) {
-    await storeContents(cache, id, JSON.stringify(defaultContent));
-
-    return defaultContent ?? {} as T;
+    await storeContents(cache, id, defaultContent);
+    return defaultContent;
   }
 }
