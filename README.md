@@ -2,6 +2,12 @@
 
 ### Monorepo for Gearbox Shift code automatic redemption
 
+## Usage
+
+You're probably looking for the [command line tool](https://github.com/trs/shift-code/tree/master/cli), which will automatically redeem shift codes for you.
+
+If you're a developer, some of the other packages might interest you in creating your own redemption tool.
+
 ## Packages
 
 <table>
@@ -10,15 +16,15 @@
     <th align="left">Description</th>
   </tr>
   <tr>
-    <td align="right"><a href="cli"><code>@shift-code/cli</code></a></td>
+    <td align="right"><a href="https://github.com/trs/shift-code/tree/master/cli"><code>@shift-code/cli</code></a></td>
     <td align="left">Command-line tool for redeeming codes</td>
   </tr>
   <tr>
-    <td align="right"><a href="api"><code>@shift-code/api</code></a></td>
+    <td align="right"><a href="https://github.com/trs/shift-code/tree/master/api"><code>@shift-code/api</code></a></td>
     <td align="left">API for interacting with shift website</td>
   </tr>
   <tr>
-    <td align="right"><a href="get"><code>@shift-code/get</code></a></td>
+    <td align="right"><a href="https://github.com/trs/shift-code/tree/master/get"><code>@shift-code/get</code></a></td>
     <td align="left">Library for retrieving shift codes</td>
   </tr>
 </table>
