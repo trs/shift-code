@@ -3,17 +3,21 @@ export const GameName = {
   'bl2': 'Borderlands 2',
   'bl3': 'Borderlands 3',
   'tps': 'Borderlands: The Pre-Sequel',
-  'gf': 'Godfall'
+  'gf': 'Godfall',
+  'ttw': 'Tiny Tina\'s Wonderlands'
 }
 
 export const PlatformName = {
   'steam': 'Steam',
   'xbox': 'Xbox',
-  'xboxlive': 'Xbox Live',
   'psn': 'Playstation',
   'epic': 'Epic Games',
   'stadia': 'Stadia'
 }
+
+export type IGameName = keyof typeof GameName;
+
+export type IPlatformName = keyof typeof PlatformName;
 
 export function isGameName(name: string | undefined): name is keyof typeof GameName {
   return typeof name === "string" && name in GameName;

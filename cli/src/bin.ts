@@ -5,6 +5,7 @@ import { Arguments } from 'yargs';
 import { migrateOldCache } from './cache/migrate';
 
 import { loginCommand, logoutCommand, redeemCommand, cacheCommand, accountCommand } from './commands';
+import { GameName, PlatformName } from './names';
 
 const runCommand = <T>(fn: (args: Arguments<T>) => Promise<any>) => (args: Arguments<T>) => {
   fn(args)
@@ -65,6 +66,18 @@ void async function () {
       command: 'redeem [codes...]',
       describe: 'Redeem all available codes or the given codes if provided',
       handler: runCommand(redeemCommand),
+      builder: {
+        game: {
+          alias: 'g',
+          array: true,
+          choices: Object.keys(GameName)
+        },
+        platform: {
+          alias: 'p',
+          array: true,
+          choices: Object.keys(PlatformName)
+        }
+      }
     })
     .help()
     .version()

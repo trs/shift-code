@@ -4,36 +4,52 @@ import { getShiftCodes } from '@shift-code/get';
 import chalk from 'chalk';
 
 import { saveAccount, appendCodeCache, loadMetaCache, loadAccountCache } from '../cache';
-import { GameName, isGameName, PlatformName, isPlatformName } from '../names';
+import { GameName, isGameName, PlatformName, isPlatformName, IPlatformName, IGameName } from '../names';
 
-export interface RedeemParameters {
+export interface RedeemFilter {
+  platform?: IPlatformName[];
+  game?: IGameName[];
+}
+
+export interface RedeemParameters extends RedeemFilter {
   codes?: string[];
 }
 
-async function redeemCode(session: Session, code: string) {
+async function redeemCode(session: Session, code: string, filter: RedeemFilter): Promise<[cont: boolean, cache: boolean]> {
   try {
-    process.stdout.write(`[${chalk.gray(code)}] Redeeming...\r`);
-    for await (const result of redeem(session, code)) {
-      const game = isGameName(result.title) ? GameName[result.title] : result.title;
+    let game: IGameName | string | undefined;
+
+    process.stdout.write(`[${chalk.yellow(code)}] Redeeming...`);
+    for await (const result of redeem(session, code, filter)) {
       const platform = isPlatformName(result.service) ? PlatformName[result.service] : result.service;
 
-      let scope = [platform, game].filter(Boolean).join(', ');
-      scope = scope ? `(${scope}) ` : '';
+      if (!game) {
+        process.stdout.write("\r\x1b[K");
 
+        game = isGameName(result.title) ? GameName[result.title] : result.title;
+
+        const gameName = game ? ` ${game}` : '';
+        console.log(`[${chalk.yellow(code)}]${gameName}`);
+      }
+
+      const scope = platform ? `[${platform}] ` : '';
       const message = `${scope}${result.status}`.trim();
 
       switch (result.error) {
         case ErrorCodes.Success:
-          console.info(`[${chalk.gray(code)}] ${message}`);
+          console.info(` > ${message}`);
           break;
         case ErrorCodes.LoginRequired:
-          console.error(`[${chalk.gray(code)}] ${chalk.red('Failed to redeem due to invalid session. Please login again!')}`);
-          return false;
+          console.error(` > ${chalk.red('Failed to redeem due to invalid session. Please login again!')}`);
+          return [false, false];
         case ErrorCodes.LaunchGame:
-          console.error(`[${chalk.gray(code)}] ${chalk.redBright('You need to launch a Borderlands game to continue redeeming.')}`);
-          return false;
+          console.error(` > ${chalk.redBright('You need to launch a Borderlands game to continue redeeming.')}`);
+          return [false, false];
+        case ErrorCodes.SkippedDueToFilter:
+          console.error(` > ${message}`);
+          return [true, false];
         default:
-          console.error(`[${chalk.gray(code)}] ${message}`);
+          console.error(` > ${message}`);
           break;
       }
     }
@@ -43,7 +59,7 @@ async function redeemCode(session: Session, code: string) {
     console.error(chalk.bgRed.white(message));
   }
 
-  return true;
+  return [true, true];
 }
 
 export async function redeemCommand(args: Arguments<RedeemParameters>) {
@@ -72,15 +88,17 @@ export async function redeemCommand(args: Arguments<RedeemParameters>) {
 
   for await (const {code} of source) {
     if (codeCache.includes(code)) {
-      console.info(`[${chalk.gray(code)}] Code found in cache, skipping.`);
+      console.info(`[${chalk.yellow(code)}] Code found in cache, skipping.`);
       continue;
     }
 
-    const cont = await redeemCode(session, code);
+    const [cont, cache] = await redeemCode(session, code, {game: args.game, platform: args.platform});
     if (!cont) return;
 
-    codeCache.push(code);
-    await appendCodeCache(user.id, code);
+    if (cache) {
+      codeCache.push(code);
+      await appendCodeCache(user.id, code);
+    }
   }
 
   console.log(chalk.green('Complete'));

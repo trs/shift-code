@@ -1,3 +1,5 @@
+import { GAME_CODE, SERVICE_CODE, SHIFT_SERVICE, SHIFT_TITLE } from "./const";
+
 export interface Authenticity {
   token: string;
   sessionID: string;
@@ -13,20 +15,33 @@ export interface Account {
   id: string;
 }
 
+export type ShiftService = typeof SHIFT_SERVICE[number];
+
+export type ShiftTitle = typeof SHIFT_TITLE[number];
+
+export type ServiceCode = typeof SERVICE_CODE[number];
+
+export type GameCode = typeof GAME_CODE[number];
+
 export interface RedemptionOption {
   token: string;
   code: string;
   check: string;
-  service: string;
-  title: string;
+  service: ShiftService;
+  title: ShiftTitle;
 }
 
 export interface RedemptionResult {
   code: string;
   status: string;
   error: ErrorCodes;
-  title?: string;
-  service?: string;
+  title?: GameCode;
+  service?: ServiceCode;
+}
+
+export interface RedeemFilter {
+  platform?: Array<ServiceCode>;
+  game?: Array<GameCode>;
 }
 
 export enum ErrorCodes {
@@ -36,5 +51,6 @@ export enum ErrorCodes {
   CodeNotAvailable = 'CodeNotAvailable',
   LaunchGame = 'LaunchGame',
   AlreadyRedeemed = 'AlreadyRedeemed',
+  SkippedDueToFilter = 'SkippedDueToFilter',
   Unknown = 'Unknown'
 }
