@@ -2,7 +2,7 @@
 
 > Automatically redeem Gearbox Shift codes
 
-![Example of a terminal executing the shift-code command](https://github.com/trs/shift-code/raw/master/cli/docs/shift-code-redeem.gif)
+<img src="https://github.com/trs/shift-code/raw/master/cli/docs/shift-code-redeem.gif" alt="Example of a terminal executing the shift-code command" width="700px" />
 
 ### Supported Games:
 
