@@ -43,7 +43,7 @@ async function redeemCode(session: Session, code: string, filter: RedeemFilter):
           console.error(` > ${chalk.red('Failed to redeem due to invalid session. Please login again!')}`);
           return [false, false];
         case ErrorCodes.LaunchGame:
-          console.error(` > ${chalk.redBright('You need to launch a Borderlands game to continue redeeming.')}`);
+          console.error(` > ${chalk.redBright('You need to launch a Shift-enabled game to continue redeeming.')}`);
           return [false, false];
         case ErrorCodes.SkippedDueToFilter:
           console.error(` > ${message}`);

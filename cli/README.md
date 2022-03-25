@@ -6,6 +6,7 @@
 
 ### Supported Games:
 
+- Tiny Tina's Wonderlands
 - Borderlands GOTY
 - Borderlands 2
 - Borderlands: The Pre-Sequel
@@ -17,7 +18,8 @@
 - Steam
 - Epic
 - PSN
-- Xbox Live
+- Xbox
+- Stadia
 
 ## Install
 
@@ -86,5 +88,6 @@ Remove all codes from the redemption cache for the current active account.
 
 ## FAQ
 
-1. What does `"You need to launch a Borderlands game to continue redeeming"` mean?
-    - You can only redeem a certain number of SHiFT codes before you'll see this. It means you need to open a SHiFT enabled title (a Borderlands game) and play past the main menu. Once you're loaded in, you can exit the game and continue redeeming.
+1. What does `"You need to launch a Shift-enabled game to continue redeeming"` mean?
+    - You can only redeem a certain number of SHiFT codes before you'll see this. It means you need to open a SHiFT enabled title and play past the main menu. Once you're loaded in, you can exit the game and continue redeeming.
+    - Alternatively, this error will go away after a certain amount of time.
