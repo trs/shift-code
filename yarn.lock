@@ -530,14 +530,6 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@shift-code/get@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@shift-code/get/-/get-0.3.0.tgz#20b38d99555bfbcaf77be944b86ea23539a95d93"
-  integrity sha512-ltX9CKyAYOv+vVq90ZzgXBn/cSZ/iDdlx/iKk4n9ou58K0YPKIaxWxAbvYo3mqGDbaOL75DNQUylpFuNy9m5Kg==
-  dependencies:
-    node-fetch "^2.6.5"
-    stream-json "^1.7.3"
-
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.8.3.tgz#3802ddd21a50a949b6721ddd72da36e67e7f1b2d"
@@ -2529,7 +2521,7 @@ node-abi@^2.21.0:
   dependencies:
     semver "^5.4.1"
 
-node-fetch@^2.6.5, node-fetch@^2.6.6, node-fetch@^2.6.7:
+node-fetch@^2.6.6, node-fetch@^2.6.7:
   version "2.6.7"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
   integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
