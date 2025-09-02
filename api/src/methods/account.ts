@@ -31,7 +31,11 @@ export async function account(session: Session) {
 
   const email = $('#current_email').text();
   const name = $('#current_display_name').text();
-  const id = $('#current_shift_service_id').text();
+  const id = $('form.edit_user').attr('action')?.split('/').at(-1);
+  
+  if (!id) {
+    throw new Error("No account ID found")
+  }
 
   const account: Account = {
     email,
