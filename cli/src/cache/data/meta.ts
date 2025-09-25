@@ -12,6 +12,10 @@ export async function metaCacheExists() {
 
 export async function loadMetaCache() {
   const cache = await loadContents<MetaCache>(META_CACHE, META_FILE, {});
+  // Bug caused id to be empty, clear it
+  if (cache.activeAccountID === '') {
+    clearMetaActiveAccount('')
+  }
   return cache;
 }
 
