@@ -37,7 +37,7 @@ jobs:
           CHANGES=$(git log --graph --pretty=format:'%h - %s' "$(git describe --abbrev=0 --tags $(git describe --tags --abbrev=0)^)"..HEAD | cat)
           echo "::set-output name=value::$CHANGES"
       - name: Install
-        run: yarn install --pure-lockfile
+        run: yarn install
       - name: Build
         run: yarn workspace ${{ steps.package.outputs.value }} run build
       - name: Package
@@ -58,4 +58,4 @@ jobs:
           git config user.email "git@tylerstewart.ca"
           git config user.name "Tyler Stewart"
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-          yarn workspace ${{ steps.package.outputs.value }} npm publish --new-version ${{ steps.version.outputs.value }}
+          yarn workspace ${{ steps.package.outputs.value }} npm publish
