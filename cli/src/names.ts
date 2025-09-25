@@ -2,9 +2,11 @@ export const GameName = {
   'bl1': 'Borderlands 1',
   'bl2': 'Borderlands 2',
   'bl3': 'Borderlands 3',
+  'bl4': 'Borderlands 4',
   'tps': 'Borderlands: The Pre-Sequel',
   'gf': 'Godfall',
-  'ttw': 'Tiny Tina\'s Wonderlands'
+  'ttw': 'Tiny Tina\'s Wonderlands',
+  'ntb': 'New Tales of the Borderlands'
 }
 
 export const PlatformName = {
