@@ -2,6 +2,7 @@ import { Arguments } from 'yargs';
 import { Session, ErrorCodes, redeem, account } from '@shift-code/api';
 import { getShiftCodes } from '@shift-code/get';
 import chalk from 'chalk';
+import { readFile } from 'fs/promises';
 
 import { saveAccount, appendCodeCache, loadMetaCache, loadAccountCache } from '../cache';
 import { GameName, isGameName, PlatformName, isPlatformName, IPlatformName, IGameName } from '../names';
@@ -13,6 +14,7 @@ export interface RedeemFilter {
 
 export interface RedeemParameters extends RedeemFilter {
   codes?: string[];
+  file?: string;
 }
 
 async function redeemCode(session: Session, code: string, filter: RedeemFilter): Promise<[cont: boolean, cache: boolean]> {
@@ -62,6 +64,24 @@ async function redeemCode(session: Session, code: string, filter: RedeemFilter):
   return [true, true];
 }
 
+async function* getCodesSource(args: Arguments<RedeemParameters>): AsyncGenerator<{code: string}> {
+  if (args.codes && args.codes.length > 0) {
+    for (const code of args.codes) {
+      yield {code};
+    }
+  } else if (args.file) {
+    const data = await readFile(args.file, 'utf8');
+    for (const line of data.split('\n')) {
+      const code = line.trim();
+      if (code) {
+        yield {code};
+      }
+    }
+  } else {
+    yield* getShiftCodes();
+  }
+}
+
 export async function redeemCommand(args: Arguments<RedeemParameters>) {
   const {activeAccountID} = await loadMetaCache();
   if (!activeAccountID) {
@@ -84,7 +104,7 @@ export async function redeemCommand(args: Arguments<RedeemParameters>) {
 
   const codeCache = codes ?? [];
 
-  const source = args.codes ? args.codes.map((code) => ({code})) : getShiftCodes();
+  const source = getCodesSource(args);
 
   for await (const {code} of source) {
     if (codeCache.includes(code)) {

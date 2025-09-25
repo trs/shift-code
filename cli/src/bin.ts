@@ -76,6 +76,11 @@ void async function () {
           alias: 'p',
           array: true,
           choices: Object.keys(PlatformName)
+        },
+        file: {
+          alias: 'f',
+          type: 'string',
+          description: 'Path to a file containing codes to redeem'
         }
       }
     })

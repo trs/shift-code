@@ -11,7 +11,9 @@
 - Borderlands 2
 - Borderlands: The Pre-Sequel
 - Borderlands 3
+- Borderlands 4
 - Godfall
+- New Tales from the Borderlands
 
 ### Supported Platforms:
 
@@ -57,14 +59,19 @@ If the email is already associated to an account, it will switch that account to
 ### `redeem`
 
 ```sh
-shift-code redeem [codes...] [--game <name>] [--platform <name>]
+shift-code redeem [codes...] [--game <name>] [--platform <name>] [--file <path>]
 ```
 
 Redeem the given codes or all available codes on the current active account.
 
 You can optionally provide one or more `--game` flags to only redeem codes for those games. Same with `--platform`.
 
+You can optionally provide a path to a file containing multiple codes using the `--file` flag. This file should have a single code per line.
+
 ```sh
+# Will redeem all codes available in the code database
+shift-code redeem
+
 # Will only redeem codes that are for Borderlands 2 and 3 for Xbox
 shift-code redeem --game bl2 --game bl3 --platform xbox
 ```
