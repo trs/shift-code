@@ -41,5 +41,10 @@ fi
 echo "Creating tag: $TAG"
 
 git tag -a "$TAG" -m "$VERSION"
+
+echo "Creating release commit"
+git add .
+git commit -m "chore: release $NAME $VERSION"
+
 git push --tags
 git push
