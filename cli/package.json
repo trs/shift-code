@@ -40,7 +40,7 @@
     "@types/prompts": "^2.4.9",
     "@types/signale": "^1.4.7",
     "@types/yargs": "^15.0.19",
-    "pkg": "^5.8.1",
+    "@yao-pkg/pkg": "6.6.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^5.9.2"
   },
