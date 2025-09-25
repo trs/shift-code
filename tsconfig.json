@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "references": [
     { "path": "./api" },
     { "path": "./cli" },
@@ -12,7 +13,8 @@
     "strict": true,
     "moduleResolution": "node",
     "declaration": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
   "exclude": [
     "node_modules"
