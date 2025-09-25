@@ -3,6 +3,7 @@
 set -e
 
 PKG="$1"
+STRATEGY="$2"
 
 if [ ! -d "$PKG" ]; then
   echo "Invalid package name"
@@ -12,9 +13,19 @@ elif [ ! -f "$PKG/package.json" ]; then
   exit
 fi
 
+if [ -z "$STRATEGY" ]; then
+  echo "Strategy is required"
+  exit
+fi
+
+if [[ "$STRATEGY" != "major" && "$STRATEGY" != "minor" && "$STRATEGY" != "patch" ]]; then
+  echo "Invalid strategy, must be one of: major, minor, patch"
+  exit
+fi
+
 NAME="$(node -e 'process.stdout.write(require("./'"$PKG"'/package.json").name)')"
 
-yarn workspace "$NAME" version --no-git-tag-version
+yarn workspace "$NAME" version "$STRATEGY"
 
 VERSION="$(node -e 'process.stdout.write(require("./'"$PKG"'/package.json").version)')"
 

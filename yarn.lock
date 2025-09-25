@@ -813,7 +813,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@shift-code/api@npm:^0.5.0, @shift-code/api@workspace:api":
+"@shift-code/api@npm:^0.6.0, @shift-code/api@workspace:api":
   version: 0.0.0-use.local
   resolution: "@shift-code/api@workspace:api"
   dependencies:
@@ -835,8 +835,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@shift-code/cli@workspace:cli"
   dependencies:
-    "@shift-code/api": "npm:^0.5.0"
-    "@shift-code/get": "npm:^0.5.0"
+    "@shift-code/api": "npm:^0.6.0"
+    "@shift-code/get": "npm:^0.5.1"
     "@types/mkdirp": "npm:^1.0.2"
     "@types/node": "npm:^16.18.126"
     "@types/prompts": "npm:^2.4.9"
@@ -855,7 +855,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@shift-code/get@npm:^0.5.0, @shift-code/get@workspace:get":
+"@shift-code/get@npm:^0.5.1, @shift-code/get@workspace:get":
   version: 0.0.0-use.local
   resolution: "@shift-code/get@workspace:get"
   dependencies:
