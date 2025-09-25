@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: '22'
+          node-version: '22.20'
       - name: Get Tag
         id: tag
         run: |
@@ -58,4 +58,4 @@ jobs:
           git config user.email "git@tylerstewart.ca"
           git config user.name "Tyler Stewart"
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-          yarn workspace ${{ steps.package.outputs.value }} publish --new-version ${{ steps.version.outputs.value }}
+          yarn workspace ${{ steps.package.outputs.value }} npm publish --new-version ${{ steps.version.outputs.value }}
