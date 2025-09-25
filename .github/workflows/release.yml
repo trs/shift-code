@@ -54,6 +54,8 @@ jobs:
           body: ${{ steps.changes.outputs.value }}
           files: cli/pkg/*
       - name: Publish
+        env:
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           git config user.email "git@tylerstewart.ca"
           git config user.name "Tyler Stewart"
