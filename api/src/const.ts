@@ -21,7 +21,7 @@ export const SHIFT_TITLE = [
   'willow2',  // Borderlands 2
   'cork',     // Borderlands: The Pre-Sequel
   'oak',      // Borderlands 3
-  'oak2'      // Borderlands 4
+  'oak2',      // Borderlands 4
   'swan',     // Godfall
   'daffodil'  // Tiny Tina's Wonderlands
 ] as const;
