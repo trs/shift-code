@@ -11,7 +11,7 @@ export async function logoutCommand() {
       await logout(session).catch(() => void 0);
       await clearAccountSession(cache.activeAccountID);
     }
-    await clearMetaActiveAccount();
+    await clearMetaActiveAccount(cache.activeAccountID);
   }
 
   console.log(chalk.green('Logout successful'));
