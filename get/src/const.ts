@@ -1,0 +1,1 @@
+export const SHIFT_CODE_REGEX = /[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}/g;
