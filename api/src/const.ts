@@ -5,7 +5,8 @@ export const SHIFT_SERVICE = [
   'xboxlive',
   'psn',
   'epic',
-  'stadia'
+  'stadia',
+  'nintendo'
 ] as const;
 
 export const SERVICE_CODE = [
@@ -13,7 +14,8 @@ export const SERVICE_CODE = [
   'xbox',
   'psn',
   'epic',
-  'stadia'
+  'stadia',
+  'nintendo'
 ] as const;
 
 export const SHIFT_TITLE = [

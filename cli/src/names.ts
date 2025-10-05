@@ -14,7 +14,8 @@ export const PlatformName = {
   'xbox': 'Xbox',
   'psn': 'Playstation',
   'epic': 'Epic Games',
-  'stadia': 'Stadia'
+  'stadia': 'Stadia',
+  'nintendo': 'Nintendo'
 }
 
 export type IGameName = keyof typeof GameName;
