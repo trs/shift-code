@@ -31,9 +31,8 @@ If you're a developer, some of the other packages might interest you in creating
 
 ## Deployment
 
-- Run `yarn run tag <package>`
-  - eg: `yarn run tag cli`
-- Enter new version for package
+- Run `yarn run tag <package> <strategy>`
+  - eg: `yarn run tag cli minor`
 - Version will be changed and a tag will be created
 - Tag and commit are then pushed
 - Workflow triggers on tag, publishing to NPM and creating a Github release
