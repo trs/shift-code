@@ -21,7 +21,7 @@
 - Epic
 - PSN
 - Xbox
-- Stadia
+- Switch
 
 ## Install
 
