@@ -3,14 +3,9 @@ const Pick = require('stream-json/filters/Pick');
 const {streamValues} = require('stream-json/streamers/StreamValues');
 
 import { ShiftCode } from '../types';
+import { parseDate } from '../utils/parseDate';
 
 const SHIFT_CODES_URL = 'https://shift.orcicorn.com/shift-code/index.json';
-
-function parseDate(str: string) {
-  const date = new Date(str);
-  if (isNaN(date.valueOf())) return undefined;
-  return date;
-}
 
 export async function * getOrcicornShiftCodes(): AsyncGenerator<ShiftCode> {
   const response = await fetch(SHIFT_CODES_URL);
