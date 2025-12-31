@@ -802,7 +802,7 @@ __metadata:
   resolution: "@shift-code/cli@workspace:cli"
   dependencies:
     "@shift-code/api": "npm:^0.6.1"
-    "@shift-code/get": "npm:^0.7.1"
+    "@shift-code/get": "npm:^0.7.2"
     "@types/mkdirp": "npm:^1.0.2"
     "@types/node": "npm:^22.18.6"
     "@types/prompts": "npm:^2.4.9"
@@ -821,7 +821,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@shift-code/get@npm:^0.7.1, @shift-code/get@workspace:get":
+"@shift-code/get@npm:^0.7.2, @shift-code/get@workspace:get":
   version: 0.0.0-use.local
   resolution: "@shift-code/get@workspace:get"
   dependencies:
