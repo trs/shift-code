@@ -1,11 +1,11 @@
-import { ShiftCode } from '../types';
-
+import type { ShiftCode } from '../types';
+import { fetchWithRetry } from '../utils/fetchWithRetry';
 import { parseDate } from '../utils/parseDate';
 
 const BL4_SHIFT_CODES_URL = 'https://code-vault.celo.workers.dev/api/codes';
 
 export async function* getCodeVaultBL4ShiftCodes(): AsyncGenerator<ShiftCode> {
-  const response = await fetch(BL4_SHIFT_CODES_URL);
+  const response = await fetchWithRetry(BL4_SHIFT_CODES_URL);
   const json = (await response.json()) as {
     data: { code: string; created_at: string }[];
   };

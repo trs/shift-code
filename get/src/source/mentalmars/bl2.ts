@@ -1,13 +1,13 @@
-import fetch from 'node-fetch';
 import * as cheerio from 'cheerio';
 
 import { ShiftCode } from '../../types';
+import { fetchWithRetry } from '../../utils/fetchWithRetry';
 import { parseTableRow } from './shared';
 
 const SHIFT_CODES_URL = 'https://mentalmars.com/game-news/borderlands-2-golden-keys/';
 
 export async function * getMentalMarsBL2ShiftCodes(): AsyncGenerator<ShiftCode> {
-  const response = await fetch(SHIFT_CODES_URL);
+  const response = await fetchWithRetry(SHIFT_CODES_URL);
 
   const text = await response.text();
   const $ = cheerio.load(text);

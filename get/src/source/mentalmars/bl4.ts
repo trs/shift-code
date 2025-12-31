@@ -1,13 +1,13 @@
-import fetch from 'node-fetch';
 import * as cheerio from 'cheerio';
 
 import { ShiftCode } from '../../types';
+import { fetchWithRetry } from '../../utils/fetchWithRetry';
 import { parseTableRow } from './shared';
 
 const SHIFT_CODES_URL = 'https://mentalmars.com/game-news/borderlands-4-shift-codes/';
 
 export async function * getMentalMarsBL4ShiftCodes(): AsyncGenerator<ShiftCode> {
-  const response = await fetch(SHIFT_CODES_URL);
+  const response = await fetchWithRetry(SHIFT_CODES_URL);
 
   const text = await response.text();
   const $ = cheerio.load(text);

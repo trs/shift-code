@@ -1,14 +1,14 @@
-import fetch from 'node-fetch';
 import * as cheerio from 'cheerio';
 
 import { ShiftCode } from '../../types';
 import { SHIFT_CODE_REGEX } from '../../const';
+import { fetchWithRetry } from '../../utils/fetchWithRetry';
 import { parseDate } from '../../utils/parseDate';
 
 const SHIFT_CODES_URL = 'https://mentalmars.com/game-news/godfall-shift-codes/';
 
 export async function * getMentalMarsGodfallShiftCodes(): AsyncGenerator<ShiftCode> {
-  const response = await fetch(SHIFT_CODES_URL);
+  const response = await fetchWithRetry(SHIFT_CODES_URL);
 
   const text = await response.text();
   const $ = cheerio.load(text);
