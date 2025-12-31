@@ -23,7 +23,3 @@ for await (const shift of getShiftCodes()) {
 }
 
 ```
-
-## Source Attribution
-
-- https://shift.orcicorn.com/shift/
