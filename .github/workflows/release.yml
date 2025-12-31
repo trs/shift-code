@@ -2,19 +2,24 @@ on:
   push:
     tags:
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   release:
     runs-on: ubuntu-latest
     if: ${{ startsWith(github.ref, 'refs/tags/') }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '22.20'
+          registry-url: 'https://registry.npmjs.org'
       - name: Get Tag
         id: tag
         run: |
-          echo "::set-output name=value::${GITHUB_REF#refs/tags/}"
+          echo "value=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
       - name: Get Package
         id: package
         run: |
@@ -24,18 +29,18 @@ jobs:
           else
             PACKAGE="@shift-code/cli"
           fi
-          echo "::set-output name=value::$PACKAGE"
+          echo "value=$PACKAGE" >> $GITHUB_OUTPUT
       - name: Get Version
         id: version
         run: |
           TAG="${{ steps.tag.outputs.value }}"
           VERSION="$(echo "$TAG" | sed -e 's#.*\([0-9].[0-9].[0-9]$\)#\1#')"
-          echo "::set-output name=value::$VERSION"
+          echo "value=$VERSION" >> $GITHUB_OUTPUT
       - name: Get Changes
         id: changes
         run: |
           CHANGES=$(git log --graph --pretty=format:'%h - %s' "$(git describe --abbrev=0 --tags $(git describe --tags --abbrev=0)^)"..HEAD | cat)
-          echo "::set-output name=value::$CHANGES"
+          echo "value=$CHANGES" >> $GITHUB_OUTPUT
       - name: Install
         run: yarn install
       - name: Build
@@ -54,10 +59,7 @@ jobs:
           body: ${{ steps.changes.outputs.value }}
           files: cli/pkg/*
       - name: Publish
-        env:
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           git config user.email "git@tylerstewart.ca"
           git config user.name "Tyler Stewart"
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
           yarn workspace ${{ steps.package.outputs.value }} npm publish
