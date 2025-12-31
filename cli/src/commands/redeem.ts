@@ -26,9 +26,8 @@ async function redeemCode(session: Session, code: string, filter: RedeemFilter):
       const platform = isPlatformName(result.service) ? PlatformName[result.service] : result.service;
       const game = isGameName(result.title) ? GameName[result.title] : result.title;
 
+      process.stdout.write("\r\x1b[K");
       if (prevGameTitle !== result.title) {
-        process.stdout.write("\r\x1b[K");
-
         const gameName = game ? ` ${game}` : '';
         console.log(`[${chalk.yellow(code)}]${gameName}`);
       }
