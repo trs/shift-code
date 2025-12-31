@@ -19,20 +19,20 @@ export interface RedeemParameters extends RedeemFilter {
 
 async function redeemCode(session: Session, code: string, filter: RedeemFilter): Promise<[cont: boolean, cache: boolean]> {
   try {
-    let game: IGameName | string | undefined;
+    let prevGameTitle: IGameName | string | undefined;
 
     process.stdout.write(`[${chalk.yellow(code)}] Redeeming...`);
     for await (const result of redeem(session, code, filter)) {
       const platform = isPlatformName(result.service) ? PlatformName[result.service] : result.service;
+      const game = isGameName(result.title) ? GameName[result.title] : result.title;
 
-      if (!game) {
+      if (prevGameTitle !== result.title) {
         process.stdout.write("\r\x1b[K");
-
-        game = isGameName(result.title) ? GameName[result.title] : result.title;
 
         const gameName = game ? ` ${game}` : '';
         console.log(`[${chalk.yellow(code)}]${gameName}`);
       }
+      prevGameTitle = result.title;
 
       const scope = platform ? `[${platform}] ` : '';
       const message = `${scope}${result.status}`.trim();
