@@ -45,7 +45,7 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@shift-code/api": "^0.6.2",
+    "@shift-code/api": "^0.6.3",
     "@shift-code/get": "^0.7.2",
     "chalk": "^4.1.2",
     "mkdirp": "^1.0.4",
