@@ -1,6 +1,6 @@
 {
   "name": "@shift-code/api",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "Gearbox SHiFT code redemption library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
