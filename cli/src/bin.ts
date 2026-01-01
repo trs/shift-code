@@ -4,7 +4,7 @@ import yargs from 'yargs';
 import { Arguments } from 'yargs';
 import { migrateOldCache } from './cache/migrate';
 
-import { loginCommand, logoutCommand, redeemCommand, cacheCommand, accountCommand } from './commands';
+import { loginCommand, logoutCommand, redeemCommand, cacheClearCommand, accountCommand, cacheRemoveCommand } from './commands';
 import { GameName, PlatformName } from './names';
 
 const runCommand = <T>(fn: (args: Arguments<T>) => Promise<any>) => (args: Arguments<T>) => {
@@ -54,12 +54,12 @@ void async function () {
         .command({
           command: 'clear',
           describe: 'Clear code cache for current account, or specified account',
-          handler: runCommand(cacheCommand),
-          builder: {
-            email: {
-              alias: 'e'
-            }
-          }
+          handler: runCommand(cacheClearCommand),
+        })
+        .command({
+          command: 'rm [code]',
+          describe: 'Remove a code from the cache for current account, or specified account',
+          handler: runCommand(cacheRemoveCommand),
         })
     })
     .command({

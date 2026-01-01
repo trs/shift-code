@@ -70,3 +70,11 @@ export async function clearCodeCache(accountID: string) {
 
   await saveAccountCache(accountID, cache);
 }
+
+export async function removeCodeCache(accountID: string, code: string) {
+  const cache = await loadAccountCache(accountID);
+  if (!cache.codes) cache.codes = [];
+  cache.codes = cache.codes.filter((c) => c !== code);
+
+  await saveAccountCache(accountID, cache);
+}
