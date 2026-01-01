@@ -46,7 +46,7 @@ export async function request(
     }
 
     const retryAfterHeader = response.headers.get('retry-after');
-    const delay = retryAfterHeader ? parseInt(retryAfterHeader) : DEFAULT_RETRY_INTERVAL;
+    const delay = retryAfterHeader ? parseInt(retryAfterHeader) : DEFAULT_RETRY_INTERVAL * Math.pow(2, options.retryCount);
 
     debug(`Too Many Requests: ${url}`);
     debug(`Delay: ${delay}ms`);

@@ -49,6 +49,9 @@ async function redeemCode(session: Session, code: string, filter: RedeemFilter):
         case ErrorCodes.SkippedDueToFilter:
           console.error(` > ${message}`);
           return [true, false];
+        case ErrorCodes.RateLimited:
+          console.error(` > ${chalk.red('Too many requests, please try again later.')}`);
+          return [false, false];
         default:
           console.error(` > ${message}`);
           break;

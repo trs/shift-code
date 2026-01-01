@@ -177,6 +177,7 @@ export async function redeemOption(jar: CookieJar, option: RedemptionOption) {
     const error = (() => {
       if (/Your code was successfully redeemed/i.test(status)) return ErrorCodes.Success;
       else if (/Failed to redeem your SHiFT code/i.test(status)) return ErrorCodes.AlreadyRedeemed;
+      else if (/Too Many Requests/i.test(status)) return ErrorCodes.RateLimited;
       else return ErrorCodes.Unknown;
     })();
 

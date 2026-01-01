@@ -52,5 +52,6 @@ export enum ErrorCodes {
   LaunchGame = 'LaunchGame',
   AlreadyRedeemed = 'AlreadyRedeemed',
   SkippedDueToFilter = 'SkippedDueToFilter',
+  RateLimited = 'RateLimited',
   Unknown = 'Unknown'
 }
