@@ -1,7 +1,7 @@
 {
   "name": "@shift-code/redeem",
   "scripts": {
-    "tag": ".deploy/tag.sh"
+    "tag": "node .deploy/tag.js"
   },
   "private": true,
   "workspaces": [
