@@ -1,6 +1,8 @@
 import fetch, { RequestInit, Response } from 'node-fetch';
 import { CookieJar } from 'tough-cookie';
 
+import { FETCH_USER_AGENT } from './const';
+
 import createDebugger from 'debug';
 const debug = createDebugger('fetch');
 
@@ -29,6 +31,11 @@ export async function request(
       cookie: await jar.getCookieString(url)
     };
   }
+
+  init.headers = {
+    'user-agent': FETCH_USER_AGENT,
+    ...(init.headers ?? {}),
+  };
 
   const response = await fetch(url, init);
 
