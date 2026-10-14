@@ -4,3 +4,4 @@ pkg/
 
 .env
 tsconfig.tsbuildinfo
+.turbo/

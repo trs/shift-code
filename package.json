@@ -1,7 +1,10 @@
 {
   "name": "@shift-code/redeem",
   "scripts": {
-    "tag": "node .deploy/tag.js"
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "dev": "turbo run dev",
+    "postinstall": "husky"
   },
   "private": true,
   "workspaces": [
@@ -12,5 +15,11 @@
   "volta": {
     "node": "22.20.0"
   },
-  "packageManager": "yarn@4.10.3"
+  "packageManager": "yarn@4.10.3",
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
+    "husky": "^9.1.7",
+    "turbo": "^2.11.8"
+  }
 }
