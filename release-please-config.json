@@ -1,0 +1,23 @@
+{
+  "release-type": "node",
+  "bootstrap-sha": "81e65c81fca5e31797b538fa0b99dbf0ed02c4bc",
+  "group-pull-request-title-pattern": "chore(release): release ${branch}",
+  "plugins": [{ "type": "node-workspace" }],
+  "packages": {
+    "cli": {
+      "include-component-in-tag": false
+    },
+    "api": {
+      "component": "@shift-code/api",
+      "tag-separator": "@",
+      "include-v-in-tag": false,
+      "skip-github-release": true
+    },
+    "get": {
+      "component": "@shift-code/get",
+      "tag-separator": "@",
+      "include-v-in-tag": false,
+      "skip-github-release": true
+    }
+  }
+}

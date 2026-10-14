@@ -14,7 +14,7 @@
   },
   "scripts": {
     "dev": "ts-node-dev src/bin.ts",
-    "build": "tsc --build",
+    "build": "tsc",
     "pkg": "pkg ./package.json --out-path pkg"
   },
   "engines": {
@@ -45,8 +45,8 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@shift-code/api": "^0.6.4",
-    "@shift-code/get": "^0.7.2",
+    "@shift-code/api": "workspace:^",
+    "@shift-code/get": "workspace:^",
     "chalk": "^4.1.2",
     "mkdirp": "^1.0.4",
     "prompts": "^2.4.2",
