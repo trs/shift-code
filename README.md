@@ -29,10 +29,23 @@ If you're a developer, some of the other packages might interest you in creating
   </tr>
 </table>
 
+## Development
+
+- `yarn install` sets up the workspace and the commit-msg hook
+- `yarn build` builds all packages in dependency order ([Turborepo](https://turborepo.com), cached)
+
 ## Deployment
 
-- Run `yarn run tag <package> <strategy>`
-  - eg: `yarn run tag cli minor`
-- Version will be changed and a tag will be created
-- Tag and commit are then pushed
-- Workflow triggers on tag, publishing to NPM and creating a Github release
+Releases are automated with [release-please](https://github.com/googleapis/release-please), driven by [conventional commits](https://www.conventionalcommits.org).
+
+- Commit messages, and PR titles for squash merges, must look like `type(scope): subject`
+  - scope is optional: `api`, `get`, `cli`, `deps`, `ci`, `release`, `repo`
+  - `fix` makes a patch release, `feat` a minor release, and `!` or a `BREAKING CHANGE` footer a major release
+  - other types (`chore`, `docs`, `ci`, ...) do not release; to ship a dependency fix, use `fix(deps): ...`
+- A commit-msg hook lints commits locally; CI lints PR titles and pushes to `master`
+- Pushing releasable commits to `master` opens or updates a release PR with version bumps and changelogs
+  - releasing `api` or `get` also releases `cli`
+- Merging the release PR triggers the release workflow
+  - `api` and `get` are published to NPM and tagged (`@shift-code/<name>@<version>`)
+  - `cli` is published to NPM, tagged (`v<version>`), and a Github release is created with the binaries attached
+- If a release job fails, re-run the failed jobs; every step is safe to repeat
