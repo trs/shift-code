@@ -32,7 +32,8 @@ If you're a developer, some of the other packages might interest you in creating
 ## Development
 
 - `yarn install` sets up the workspace and the commit-msg hook
-- `yarn build` builds all packages in dependency order ([Turborepo](https://turborepo.com), cached)
+- `yarn build` builds all packages in dependency order
+- `yarn dev -- <command>` runs the cli in dev mode, eg: `yarn dev -- redeem`
 
 ## Deployment
 
